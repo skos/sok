@@ -4,4 +4,4 @@ mail.from=NAME
 mail.subject=SUBJECT
 mail.body=BODY
 
-filters.Access-Control-Allow-Origin="*"
+filters.Access-Control-Allow-Origin=*
