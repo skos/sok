@@ -1,0 +1,7 @@
+mail.server=SERVER
+mail.addressFrom=MAIL
+mail.from=NAME
+mail.subject=SUBJECT
+mail.body=BODY
+
+filters.Access-Control-Allow-Origin="*"
