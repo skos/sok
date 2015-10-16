@@ -1,0 +1,2 @@
+# sok
+System Odsiewania Kandydatów
