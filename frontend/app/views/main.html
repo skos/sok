@@ -1,0 +1,25 @@
+<div class="row">
+<div class="row-same-height row-full-height">
+  <div class="col-sm-7 col-sm-height col-full-height">
+    <h2>Witaj, kandydacie na administratora!</h2>
+    <p class="main-text">Chcesz zmierzyć się z naszymi zadaniami? Zarejestruj się i pokaż nam, co potrafisz!</p>
+    <p class="main-text">Na swój adres e-mail dostaniesz link do formularza pozwalającego wziąć udział w rekrutacji.</p>
+  </div>
+  <div class="col-sm-5  col-sm-height col-full-height">
+    <form role="form" ng-submit="main.registerUser()" name="main.registerForm">
+      <div class="form-group">
+        <label for="userName" class="control-label">Nazwa użytkownika</label>
+        <input type="text" ng-model="main.user.name" placeholder="master777" class="form-control" id="userName" required>
+      </div>
+      <div class="form-group" ng-class="{ 'has-error': main.registerForm.$error.email }" >
+        <label for="userEmail" class="control-label">Adres e-mail</label>
+        <input type="email" ng-model="main.user.email" placeholder="master777@buziaczek.pl" id="userEmail" required
+        class="form-control" >
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">Zapisz się!</button>
+      </div>
+    </form>
+  </div>
+  </div>
+</div>
