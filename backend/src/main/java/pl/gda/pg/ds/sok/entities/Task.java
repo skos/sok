@@ -4,13 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,6 +28,9 @@ public class Task implements Serializable  {
 	@NotNull
 	@Type(type="text")
 	private String content;
+    @NotNull
+    @Type(type="integer")
+    private Integer difficulty;
 	@OneToMany(mappedBy="task",cascade=CascadeType.PERSIST)
     private List<Answer> answers = new ArrayList<Answer>();
 	
@@ -59,4 +56,8 @@ public class Task implements Serializable  {
 	public String getContent() {
 		return content;
 	}
+
+    public Integer getDifficulty() {
+        return difficulty;
+    }
 }
