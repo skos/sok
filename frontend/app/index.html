@@ -45,6 +45,11 @@
     </div>
   </div>
 
+  <div class="container" id="alerts" ng-controller="AlertCtrl as alertDisplay">
+    <uib-alert class="alert" ng-repeat="alert in alertDisplay.list" dismiss-on-timeout="10000"
+    type="{{alert.type}}" close="alertDisplay.close($index)">{{alert.message}}</uib-alert>
+  </div>
+
   <div class="container" id="main">
     <div class="col-md-10 col-md-offset-1 jumbotron">
       <div ng-view=""></div>
@@ -77,8 +82,10 @@
   <script src="scripts/app.js"></script>
   <script src="scripts/controllers/main.js"></script>
   <script src="scripts/controllers/tasks.js"></script>
-  <script src="scripts/services/tasksapi.js"></script>
   <script src="scripts/controllers/menu.js"></script>
+  <script src="scripts/controllers/alert.js"></script>
+  <script src="scripts/services/tasksapi.js"></script>
+  <script src="scripts/services/alerts.js"></script>
   <!-- endbuild -->
 </body>
 </html>
