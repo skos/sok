@@ -1,7 +1,10 @@
 package pl.gda.pg.ds.sok.entities;
 
+import org.hibernate.annotations.ColumnTransformer;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -34,16 +37,25 @@ public class Candidate implements Serializable  {
 	@NotNull
 	@Column(unique = true)
 	private String token;
+	@NotNull
+	@Column(columnDefinition = "inet default '127.0.0.1'")
+	@ColumnTransformer(read="CAST(ip AS varchar)", write="CAST(? AS inet)")
+	private String ip;
+	@NotNull
+	@Column(columnDefinition = "timestamp with time zone default now()")
+	private Date registrationDate;
 	@OneToMany(mappedBy="candidate",cascade=CascadeType.PERSIST)
-	private List<Answer> answers = new ArrayList<Answer>();
+	private List<Answer> answers = new ArrayList<>();
 	
 	public Candidate() {
 	}
 	
-	public Candidate(String name, String email, String token) {
+	public Candidate(String name, String email, String token, String ip) {
 		this.name = name;
 		this.email = email;
 		this.token = token;
+		this.ip = ip;
+		this.registrationDate = new Date();
 	}
 	
 	public Candidate(Long id) {

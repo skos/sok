@@ -11,7 +11,9 @@ import pl.gda.pg.ds.sok.utils.DbUtil;
 import pl.gda.pg.ds.sok.utils.MsgUtil;
 import pl.gda.pg.ds.sok.utils.PropertiesUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -45,17 +47,17 @@ public class CandidateServiceImpl implements CandidateService {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createCandidate(CandidateBean candidate) {
+	public Response createCandidate(@Context HttpServletRequest request, CandidateBean candidate) {
 		try {
 			Session session = DbUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken()));
+			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), request.getRemoteAddr()));
 			session.getTransaction().commit();
-			
+
 			String mailBody = PropertiesUtil.getProperty("mail.body");
 			mailBody = mailBody.replace(MsgUtil.TOKEN_PLACEHOLDER, candidate.getToken());
 			MsgUtil.sendMail(candidate.getEmail(), candidate.getName(), PropertiesUtil.getProperty("mail.subject"), mailBody);
-			
+
 			return Response.status(Response.Status.CREATED).build();
 		} catch (ConstraintViolationException e) {
 			logger.error(e);
