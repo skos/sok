@@ -1,20 +1,23 @@
 package pl.gda.pg.ds.sok.beans;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AnswerBean {
 
 	private String content;
-	private Long candidateId;
-	private Long taskId;
+	private String candidateId;
+	private String taskId;
 	
 	public String getContent() {
 		return content;
 	}
 	
 	public Long getCandidateId() {
-		return candidateId;
+		return Long.parseLong(candidateId);
 	}
 	
 	public Long getTaskId() {
-		return taskId;
+		return Long.parseLong(taskId);
 	}
 }

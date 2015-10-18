@@ -1,16 +1,9 @@
 package pl.gda.pg.ds.sok.services.impl;
 
-import java.util.List;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
-
 import pl.gda.pg.ds.sok.beans.AnswerBean;
 import pl.gda.pg.ds.sok.beans.SimpleResponseBean;
 import pl.gda.pg.ds.sok.entities.Answer;
@@ -18,6 +11,11 @@ import pl.gda.pg.ds.sok.entities.Candidate;
 import pl.gda.pg.ds.sok.entities.Task;
 import pl.gda.pg.ds.sok.services.AnswerService;
 import pl.gda.pg.ds.sok.utils.DbUtil;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/answer")
 public class AnswerServiceImpl implements AnswerService {

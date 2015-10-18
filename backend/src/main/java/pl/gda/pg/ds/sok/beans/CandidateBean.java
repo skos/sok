@@ -1,7 +1,10 @@
 package pl.gda.pg.ds.sok.beans;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import java.util.UUID;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CandidateBean {
 
 	private String token;
