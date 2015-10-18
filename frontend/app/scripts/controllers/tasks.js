@@ -14,7 +14,7 @@ angular.module('sokApp')
     var vm = this;
 
     function saveAnswer() {
-      SokApi.answer.update({content: vm.currentAnswer.content, candidateId: vm.user.id, taskId: vm.taskList[vm.selected].id});
+      SokApi.answer.update({content: vm.currentAnswer.content, candidateId: vm.user.id, taskId: vm.selected.id});
     }
 
     function getAnswer(task_id) {
@@ -27,7 +27,7 @@ angular.module('sokApp')
       if (vm.answerForm.taskAnswer.$dirty && !confirm('lose unsaved changes?')) {
         vm.selected = vm.oldVal;
       } else {
-        getAnswer(vm.taskList[vm.selected].id);
+        getAnswer(vm.selected.id);
       }
     }
 
@@ -35,16 +35,18 @@ angular.module('sokApp')
       vm.user = SokApi.user.get({token: $routeParams.token});
       vm.taskList = SokApi.tasks.query();
       vm.taskList.$promise
-      .then(function(data){
-        getAnswer(data[vm.selected].id);
+      .then(function (){
+        vm.selected = vm.taskList[0];
+        getAnswer(vm.selected.id);
       });
     }
 
     vm.user = null;
     vm.taskList = null;
     vm.currentAnswer = null;
-    vm.selected = 0;
+    vm.selected = null;
     vm.oldVal = null;
+    vm.introCollapsed = false;
     vm.getAnswer = getAnswer;
     vm.saveAnswer = saveAnswer;
     vm.confirmChange = confirmChange;
