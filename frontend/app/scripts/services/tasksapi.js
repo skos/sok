@@ -20,7 +20,7 @@ angular.module('sokApp')
           save: {method: 'PUT'}
         }),
         answer: $resource(apiAddress + '/answer/:taskId/:token', {}, {
-          update: {method: 'PUT'}
+          update: {method: 'POST'}
         })
       }
     }]);
