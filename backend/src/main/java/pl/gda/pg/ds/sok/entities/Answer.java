@@ -53,4 +53,8 @@ public class Answer implements Serializable  {
 	public Task getTask() {
 		return task;
 	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 }

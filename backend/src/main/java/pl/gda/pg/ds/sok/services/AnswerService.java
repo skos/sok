@@ -7,5 +7,5 @@ import pl.gda.pg.ds.sok.beans.AnswerBean;
 public interface AnswerService {
 
 	Response getAnswerByTaskAndToken(String taskId, String token);
-	Response createAnswer(AnswerBean answer);
+	Response updateAnswer(AnswerBean answer);
 }
