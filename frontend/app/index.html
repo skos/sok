@@ -23,21 +23,20 @@
         <div class="col-md-10 col-md-offset-1">
           <div class="navbar-header ">
 
-            <button type="button" class="navbar-toggle collapsed" ng-click="menu.navbarCollapsed = !menu.navbarCollapsed">
+            <button type="button" class="navbar-toggle collapsed" ng-click="menu.collapseToggle()">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-
-            <span class="navbar-brand">System Odsiewania Kandydatów</span>
+            <span class="navbar-brand visible-xs-inline-block">SOK.ds.pg.gda.pl</span>
+            <span class="navbar-brand hidden-xs">System Odsiewania Kandydatów</span>
           </div>
 
-          <div class="collapse navbar-collapse" uib-collapse="menu.navbarCollapsed">
-
+          <div class="collapse navbar-collapse" uib-collapse="menu.collapsed">
             <ul class="nav navbar-nav navbar-right">
-              <li ng-class="{'active' : menu.isActive('$')}"><a href="#/">Strona Główna</a></li>
-              <li ng-class="{'active' : menu.isActive('tasks')}"><a href="#/tasks/6f9f81bb-7830-4058-8e99-1293e56306ac">Zadania</a></li>
+              <li ng-class="{'active' : menu.isActive('$')}" ng-click="menu.collapse()"><a href="#/">Strona Główna</a></li>
+              <li ng-class="{'active' : menu.isActive('tasks')}" ng-click="menu.collapse()"><a href="#/tasks/6f9f81bb-7830-4058-8e99-1293e56306ac">Zadania</a></li>
             </ul>
           </div>
         </div>
@@ -56,7 +55,7 @@
     </div>
   </div>
 
-  <div class="footer collapse navbar-collapse navbar-fixed-bottom">
+  <div class="collapse navbar-collapse navbar-fixed-bottom" id="footer">
     <div class="container">
       <div class="col-md-10 col-md-offset-1">
         <img src="images/SKOS.svg" class="navbar-left">

@@ -13,7 +13,15 @@
   function ($location) {
     var vm = this;
     
-    vm.navbarCollapsed = true;
+    vm.collapsed = true;
+
+    vm.collapseToggle = function() {
+    	vm.collapsed = !vm.collapsed;
+    }
+
+    vm.collapse = function() {
+    	vm.collapsed = true;
+    }
 
     vm.isActive = function (viewLocation) {
       var regex = new RegExp("^/" +viewLocation, "i");
