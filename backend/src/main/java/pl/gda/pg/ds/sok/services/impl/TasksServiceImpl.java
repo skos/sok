@@ -24,7 +24,7 @@ public class TasksServiceImpl implements TasksService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@SuppressWarnings("unchecked")
-	public Response getTasksByToken() {
+	public Response getTasks() {
 		try {
 			Session session = DbUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("from Task");
