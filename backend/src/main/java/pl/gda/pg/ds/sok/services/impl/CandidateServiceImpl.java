@@ -51,7 +51,7 @@ public class CandidateServiceImpl implements CandidateService {
 		try {
 			Session session = DbUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), request.getRemoteAddr()));
+			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken()));
 			session.getTransaction().commit();
 
 			String mailBody = PropertiesUtil.getProperty("mail.body");

@@ -54,18 +54,19 @@ public class AnswerServiceImpl implements AnswerService {
         try {
             Session session = DbUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            Query query = session.createQuery("from Answer where candidate.id = :candidate and task.id = :task");
-            query.setParameter("candidate", answer.getCandidateId());
-            query.setParameter("task", answer.getTaskId());
+            Query query = session.createQuery("from Answer where candidate.id = :candidateId and task.id = :taskId");
+            query.setLong("candidateId", answer.getCandidateId());
+            query.setLong("taskId", answer.getTaskId());
 
             boolean update = false;
             List<Answer> resultList = query.list();
             if (resultList.size() > 0) {
                 Answer answerToUpdate = resultList.get(0);
                 answerToUpdate.setContent(answer.getContent());
+                session.save(answerToUpdate);
+                update = true;
             } else {
                 session.save(new Answer(answer.getContent(), new Candidate(answer.getCandidateId()), new Task(answer.getTaskId())));
-                update = true;
             }
             session.getTransaction().commit();
 
