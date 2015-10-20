@@ -57,7 +57,8 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: $footer-height;
 }
-.footer {
+
+#footer {
   position: absolute;
   bottom: 0;
   /* Set the fixed height of the footer here */
@@ -93,7 +94,7 @@ body {
 
 #main {
   height: auto;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
 
@@ -113,6 +114,10 @@ body {
 .answer {
   font-family: $font-family-monospace;
   @include resizable(vertical);
+}
+
+.alert {
+  width: 100%;
 }
 
 #alerts > div:last-child {
@@ -167,13 +172,9 @@ body {
   }
 }
 
-/*
-  We're using CSS transitions for when
-  the enter and move events are triggered
-  for the element that has the .alert
-  class
-*/
-.alert.ng-enter, .alert.ng-move {
+// Animacje CSS dla alertów
+.alert.ng-enter, .alert.ng-move,
+.registration-success.ng-enter, .registration.ng-move {
   -webkit-transition:0.5s linear all;
   -moz-transition:0.5s linear all;
   -o-transition:0.5s linear all;
@@ -181,22 +182,14 @@ body {
   opacity:0;
 }
 
-/*
- The ng-enter-active and ng-move-active
- are where the transition destination properties
- are set so that the animation knows what to
- animate.
-*/
 .alert.ng-enter.ng-enter-active,
-.alert.ng-move.ng-move-active {
+.alert.ng-move.ng-move-active,
+.registration-success.ng-enter.ng-enter-active,
+.registration.ng-move.ng-move-active {
   opacity:1;
 }
 
-/*
-  We're using CSS keyframe animations for when
-  the leave event is triggered for the element
-  that has the .alert class
-*/
+
 .alert.ng-leave {
   -webkit-animation:0.5s my_animation;
   -moz-animation:0.5s my_animation;
@@ -209,10 +202,6 @@ body {
   to { opacity:0; }
 }
 
-/*
-  Unfortunately each browser vendor requires
-  its own definition of keyframe animation code...
-*/
 @-webkit-keyframes my_animation {
   from { opacity:1; }
   to { opacity:0; }
