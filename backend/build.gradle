@@ -19,5 +19,8 @@ dependencies {
   compile 'org.postgresql:postgresql:9.3-1100-jdbc4'
   compile 'log4j:log4j:1.2.17'
   compile 'javax.mail:mail:1.4'
+  compile 'org.mockito:mockito-all:1.8.4'
+  compile 'javax.el:javax.el-api:3.0.0'
 
+  testCompile 'junit:junit:4.11'
 }
