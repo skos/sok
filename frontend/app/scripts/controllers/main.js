@@ -9,18 +9,28 @@
  */
  angular.module('sokApp')
  .controller('MainCtrl', 
-  ['$http', 'SokApi',
-  function ($http, SokApi) {
-  var vm = this;
-  
-  vm.registered = false;
-  vm.error = false
-  vm.user = {name: '', email: ''};
+  ['$http', 'SokApi', 'Alerts',
+  function ($http, SokApi, Alerts) {
+    var vm = this;
 
-  vm.registerUser = function() {
-    if (vm.registerForm.$valid) {
-      SokApi.user.save(vm.user)
-    }
-  };
+    vm.registered = false;
+    vm.error = false
+    vm.user = {name: '', email: ''};
 
-}]);
+    vm.registerUser = function() {
+      if (vm.registerForm.$valid) {
+
+        SokApi.user.save(vm.user).$promise
+        .then(
+          function() {
+            vm.registered = true;
+          }, 
+          function(rejection) {
+            if (rejection.status === 409) {
+              Alerts.add("danger","Użytkownik o takim adresie lub imieniu już istnieje!")
+            }
+          })
+      }
+    };
+
+  }]);
