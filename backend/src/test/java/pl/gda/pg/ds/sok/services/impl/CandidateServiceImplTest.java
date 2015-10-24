@@ -37,9 +37,7 @@ public class CandidateServiceImplTest {
         }
     }
 
-    /*
-    need to add PowerMockito to omit sending an email
-    @Test
+    /*@Test
     @SuppressWarnings("unchecked")
     public void testCreateCandidate() throws Exception {
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
@@ -59,6 +57,6 @@ public class CandidateServiceImplTest {
         Session session = DbUtil.getSessionFactory().openSession();
         Query query = session.createQuery("delete from Candidate where token = :token");
         query.setString("token", token);
-        System.err.println(query.executeUpdate());
+        query.executeUpdate();
     }*/
 }
