@@ -14,7 +14,7 @@
     var vm = this;
 
     vm.registered = false;
-    vm.error = false
+    vm.error = false;
     vm.user = {name: '', email: ''};
 
     vm.registerUser = function() {
@@ -27,9 +27,9 @@
           }, 
           function(rejection) {
             if (rejection.status === 409) {
-              Alerts.add("danger","Użytkownik o takim adresie lub imieniu już istnieje!")
+              Alerts.add("danger","Użytkownik o takim adresie lub imieniu już istnieje!");
             }
-          })
+          });
       }
     };
 

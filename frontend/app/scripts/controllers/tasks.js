@@ -14,7 +14,11 @@ angular.module('sokApp')
     var vm = this;
 
     function saveAnswer() {
-      SokApi.answer.update({content: vm.currentAnswer.content, candidateId: vm.user.id, taskId: vm.selected.id});
+      var answer = SokApi.answer.update({content: vm.currentAnswer.content, candidateId: vm.user.id, taskId: vm.selected.id});
+      answer.$promise
+      .then(function() {
+        vm.answerForm.$setPristine();
+      });
     }
 
     function getAnswer(task_id) {

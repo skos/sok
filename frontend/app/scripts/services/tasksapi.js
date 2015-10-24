@@ -22,5 +22,5 @@ angular.module('sokApp')
         answer: $resource(apiAddress + '/answer/:taskId/:token', {}, {
           update: {method: 'POST'}
         })
-      }
+      };
     }]);

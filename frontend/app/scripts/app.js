@@ -18,20 +18,26 @@ angular
     'ngTouch',
     'ui.bootstrap'
   ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
-      })
-      .when('/tasks/:token', {
-        templateUrl: 'views/tasks.html',
-        controller: 'TasksCtrl',
-        controllerAs: 'tasks'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-      
-  });
+  .config([
+    '$routeProvider',
+    function ($routeProvider) {
+      $routeProvider
+        .when('/', {
+          templateUrl: 'views/main.html',
+          controller: 'MainCtrl',
+          controllerAs: 'main'
+        })
+        .when('/tasks/:token', {
+          templateUrl: 'views/tasks.html',
+          controller: 'TasksCtrl',
+          controllerAs: 'tasks'
+        })
+        .otherwise({
+          redirectTo: '/'
+        });
+  }]);
+  // .config([
+  //   '$httpProvider',
+  //   function($httpProvider) {
+  //     $httpProvider.interceptors.push('httpErrorHandler')
+  //   }]);
