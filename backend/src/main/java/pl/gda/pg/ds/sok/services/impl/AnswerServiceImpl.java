@@ -11,8 +11,11 @@ import pl.gda.pg.ds.sok.entities.Candidate;
 import pl.gda.pg.ds.sok.entities.Task;
 import pl.gda.pg.ds.sok.services.AnswerService;
 import pl.gda.pg.ds.sok.utils.DbUtil;
+import pl.gda.pg.ds.sok.utils.NetworkUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -50,7 +53,7 @@ public class AnswerServiceImpl implements AnswerService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @SuppressWarnings("unchecked")
-    public Response updateAnswer(AnswerBean answer) {
+    public Response updateAnswer(@Context HttpServletRequest request, AnswerBean answer) {
         try {
             Session session = DbUtil.getSessionFactory().openSession();
             session.beginTransaction();
@@ -66,7 +69,7 @@ public class AnswerServiceImpl implements AnswerService {
                 session.save(answerToUpdate);
                 update = true;
             } else {
-                session.save(new Answer(answer.getContent(), new Candidate(answer.getCandidateId()), new Task(answer.getTaskId())));
+                session.save(new Answer(answer.getContent(), new Candidate(answer.getCandidateId()), new Task(answer.getTaskId()),NetworkUtil.getIpAddress(request)));
             }
             session.getTransaction().commit();
 

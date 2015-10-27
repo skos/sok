@@ -1,15 +1,12 @@
 package pl.gda.pg.ds.sok.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -28,14 +25,23 @@ public class Answer implements Serializable  {
 	private Candidate candidate;
 	@ManyToOne
 	private Task task;
+	@NotNull
+	@Column(columnDefinition = "inet default '127.0.0.1'")
+	@ColumnTransformer(write="CAST(? AS inet)")
+	private String ip;
+	@NotNull
+	@Column(columnDefinition = "timestamp with time zone default now()")
+	private Date answerDate;
 	
 	public Answer() {
 	}
 	
-	public Answer(String content, Candidate candidate, Task task) {
+	public Answer(String content, Candidate candidate, Task task, String ip) {
 		this.content = content;
 		this.candidate = candidate;
 		this.task = task;
+		this.ip = ip;
+		this.answerDate = new Date();
 	}
 	
 	public Long getId() {

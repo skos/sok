@@ -9,6 +9,7 @@ import pl.gda.pg.ds.sok.entities.Candidate;
 import pl.gda.pg.ds.sok.services.CandidateService;
 import pl.gda.pg.ds.sok.utils.DbUtil;
 import pl.gda.pg.ds.sok.utils.MsgUtil;
+import pl.gda.pg.ds.sok.utils.NetworkUtil;
 import pl.gda.pg.ds.sok.utils.PropertiesUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,11 +52,7 @@ public class CandidateServiceImpl implements CandidateService {
 		try {
 			Session session = DbUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			String ipAddress = request.getHeader("X-FORWARDED-FOR");
-			if (ipAddress == null) {
-				ipAddress = request.getRemoteAddr();
-			}
-			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), ipAddress));
+			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), NetworkUtil.getIpAddress(request)));
 			session.getTransaction().commit();
 
 			String mailBody = PropertiesUtil.getProperty("mail.body");
