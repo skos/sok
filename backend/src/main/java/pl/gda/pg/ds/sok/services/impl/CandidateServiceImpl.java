@@ -51,7 +51,11 @@ public class CandidateServiceImpl implements CandidateService {
 		try {
 			Session session = DbUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), request.getRemoteAddr()));
+			String ipAddress = request.getHeader("X-FORWARDED-FOR");
+			if (ipAddress == null) {
+				ipAddress = request.getRemoteAddr();
+			}
+			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), ipAddress));
 			session.getTransaction().commit();
 
 			String mailBody = PropertiesUtil.getProperty("mail.body");
