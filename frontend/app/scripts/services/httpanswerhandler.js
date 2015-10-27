@@ -38,5 +38,5 @@
 
         return $q.reject(rejection);
       }
-    }
+    };
   }]);
