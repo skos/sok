@@ -1,10 +1,10 @@
-$icon-font-path: '../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/';
+$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 
 $body-bg: #0c6ba1;
 $white: #fff;
 $brand-primary: #0c6ba1;
 
-$navbar-default-bg:                #f8f8f8;
+$navbar-default-bg:                #fff;
 
 $navbar-default-link-color:                $brand-primary;
 $navbar-default-link-hover-color:          darken($brand-primary, 5%);
@@ -29,24 +29,24 @@ $jumbotron-bg: $white;
 $footer-height: 100px;
 
 // bower:scss
-@import 'bootstrap-sass-official/assets/stylesheets/_bootstrap.scss';
+@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
 .header {
-  @include box-shadow(0 3px 20 0 rgba(0, 0, 0, .42));
+  @include box-shadow(0 3px 20px 0 rgba(0, 0, 0, .42));
 }
 
 
 .jumbotron {
-  @include box-shadow(0 0 20 0 rgba(0, 0, 0, .42));
+  @include box-shadow(0 0 20px 0 rgba(0, 0, 0, .42));
   margin-bottom: 0;
 
-  p {
+  & p {
     font-size: $font-size-base;
   }
 }
 
-.main-text {
+p.main-text {
   font-size: $font-size-large;
 }
 
@@ -61,21 +61,32 @@ body {
 }
 
 #footer {
-  @include box-shadow(0 -3px 20 0 rgba(0, 0, 0, .42));
-  background-color: $white;
+  position: absolute;
   bottom: 0;
+  width: 100%;
+  text-align: right;
+  background-color: $white;
+  @include box-shadow(0 -3px 20px 0 rgba(0, 0, 0, .42));
   // Set the fixed height of the footer here 
   height: $footer-height;
-  position: absolute;
-  text-align: right;
-  width: 100%;
+  min-height: $footer-height;
 
-  p {
-    padding-top: 30;
+  & .github {
+    margin-right: 10px;
+    padding-top: 35px;
   }
 
-  img {
+  & .copyright {
+    padding-top: 40px;
+  }
+
+  & .logo {
+    left: 0;
+    margin: auto;
+    position: absolute;
+    text-align: center;
     width: 80px;
+    padding-top: 10px;
   }
 }
 
@@ -136,8 +147,8 @@ body {
 
 .row-same-height {
   display: table;
-  table-layout: fixed;
   width: 100%;
+  table-layout: fixed;
 }
 
 .col-xs-height {
