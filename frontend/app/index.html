@@ -36,7 +36,7 @@
           <div class="collapse navbar-collapse" uib-collapse="menu.collapsed">
             <ul class="nav navbar-nav navbar-right">
               <li ng-class="{'active' : menu.isActive('$')}" ng-click="menu.collapse()"><a href="#/">Strona Główna</a></li>
-              <li ng-class="{'active' : menu.isActive('tasks')}" ng-click="menu.collapse()"><a href="#/tasks/6f9f81bb-7830-4058-8e99-1293e56306ac">Zadania</a></li>
+              <li ng-class="{'active' : menu.isActive('contact')}" ng-click="menu.collapse()"><a href="#/contact">Kontakt</a></li>
             </ul>
           </div>
         </div>
@@ -54,8 +54,7 @@
   </div>
 
   <div class="container" id="main">
-    <div class="col-md-10 col-md-offset-1 jumbotron">
-      <div ng-view=""></div>
+    <div class="col-md-10 col-md-offset-1 jumbotron content" ng-view>
     </div>
   </div>
 

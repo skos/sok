@@ -32,6 +32,9 @@ angular
           controller: 'TasksCtrl',
           controllerAs: 'tasks'
         })
+        .when('/contact', {
+          templateUrl: 'views/contact.html'
+        })
         .otherwise({
           redirectTo: '/'
         });

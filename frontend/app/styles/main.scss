@@ -191,28 +191,28 @@ body {
 
 
 .alert.ng-leave {
-  -webkit-animation:0.5s my_animation;
-  -moz-animation:0.5s my_animation;
-  -o-animation:0.5s my_animation;
-  animation:0.5s my_animation;
+  -webkit-animation:0.5s fade;
+  -moz-animation:0.5s fade;
+  -o-animation:0.5s fade;
+  animation:0.5s fade;
 }
 
-@keyframes my_animation {
+@keyframes fade {
   from { opacity:1; }
   to { opacity:0; }
 }
 
-@-webkit-keyframes my_animation {
+@-webkit-keyframes fade {
   from { opacity:1; }
   to { opacity:0; }
 }
 
-@-moz-keyframes my_animation {
+@-moz-keyframes fade {
   from { opacity:1; }
   to { opacity:0; }
 }
 
-@-o-keyframes my_animation {
+@-o-keyframes fade {
   from { opacity:1; }
   to { opacity:0; }
 }

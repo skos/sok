@@ -9,8 +9,8 @@
  */
  angular.module('sokApp')
  .controller('MainCtrl', 
-  ['$http', 'SokApi', 'Alerts',
-  function ($http, SokApi, Alerts) {
+  ['$http', 'SokApi',
+  function ($http, SokApi) {
     var vm = this;
 
     vm.registered = false;
