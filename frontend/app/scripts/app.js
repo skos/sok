@@ -36,8 +36,4 @@ angular
           redirectTo: '/'
         });
   }]);
-  // .config([
-  //   '$httpProvider',
-  //   function($httpProvider) {
-  //     $httpProvider.interceptors.push('httpErrorHandler')
-  //   }]);
+

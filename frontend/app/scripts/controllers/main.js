@@ -24,11 +24,6 @@
         .then(
           function() {
             vm.registered = true;
-          }, 
-          function(rejection) {
-            if (rejection.status === 409) {
-              Alerts.add("danger","Użytkownik o takim adresie lub imieniu już istnieje!");
-            }
           });
       }
     };

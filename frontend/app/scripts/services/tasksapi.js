@@ -9,18 +9,21 @@
  */
 angular.module('sokApp')
   .factory('SokApi', 
-    ['$resource',
-    function ($resource) {
+    ['$resource', 'httpAnswerHandler', 'httpRegistrationHandler', 'httpGeneralHandler',
+    function ($resource, httpAnswerHandler, httpRegistrationHandler, httpGeneralHandler) {
   
       var apiAddress = 'http://localhost:8080/backend';
   
       return {
-        tasks: $resource(apiAddress + '/tasks'),
+        tasks: $resource(apiAddress + '/tasks', {}, {
+          get: {interceptor: httpGeneralHandler}
+        }),
         user:  $resource(apiAddress + '/user/:token', {}, {
-          save: {method: 'PUT'}
+          save: {method: 'PUT', interceptor: httpRegistrationHandler},
+          get: {interceptor: httpGeneralHandler}
         }),
         answer: $resource(apiAddress + '/answer/:taskId/:token', {}, {
-          update: {method: 'POST'}
+          update: {method: 'POST', interceptor: httpAnswerHandler}
         })
       };
     }]);
