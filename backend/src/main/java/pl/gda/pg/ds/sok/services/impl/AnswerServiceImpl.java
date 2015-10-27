@@ -30,8 +30,8 @@ public class AnswerServiceImpl implements AnswerService {
     @Produces(MediaType.APPLICATION_JSON)
     @SuppressWarnings("unchecked")
     public Response getAnswerByTaskAndToken(@PathParam("taskId") String taskId, @PathParam("token") String token) {
+        Session session = DbUtil.getSession();
         try {
-            Session session = DbUtil.getSessionFactory().openSession();
             Query query = session.createQuery("from Answer a where a.task.id = :taskId and a.candidate.token = :token");
             query.setLong("taskId", Long.parseLong(taskId));
             query.setString("token", token);
@@ -47,6 +47,8 @@ public class AnswerServiceImpl implements AnswerService {
         } catch (Exception e) {
             logger.error(e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            session.close();
         }
     }
 
@@ -54,8 +56,8 @@ public class AnswerServiceImpl implements AnswerService {
     @Consumes(MediaType.APPLICATION_JSON)
     @SuppressWarnings("unchecked")
     public Response updateAnswer(@Context HttpServletRequest request, AnswerBean answer) {
+        Session session = DbUtil.getSession();
         try {
-            Session session = DbUtil.getSessionFactory().openSession();
             session.beginTransaction();
             Query query = session.createQuery("from Answer where candidate.id = :candidateId and task.id = :taskId");
             query.setLong("candidateId", answer.getCandidateId());
@@ -80,6 +82,8 @@ public class AnswerServiceImpl implements AnswerService {
         } catch (Exception e) {
             logger.error(e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            session.close();
         }
     }
 }

@@ -25,8 +25,8 @@ public class TasksServiceImpl implements TasksService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@SuppressWarnings("unchecked")
 	public Response getTasks() {
+		Session session = DbUtil.getSession();
 		try {
-			Session session = DbUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("from Task");
 			
 			List<Task> resultList = query.list();
@@ -38,6 +38,8 @@ public class TasksServiceImpl implements TasksService {
 		} catch (Exception e) {
 			logger.error(e);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		} finally {
+			session.close();
 		}
 	}
 }

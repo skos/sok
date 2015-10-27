@@ -1,6 +1,7 @@
 package pl.gda.pg.ds.sok.utils;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -18,12 +19,12 @@ public class DbUtil {
 		}
 	}
 
-	public static SessionFactory getSessionFactory() {
-		return sessionFactory;
+	public static Session getSession() {
+		return sessionFactory.openSession();
 	}
 
 	public static void shutdown() {
 		// Close caches and connection pools
-		getSessionFactory().close();
+		sessionFactory.close();
 	}
 }

@@ -29,8 +29,8 @@ public class CandidateServiceImpl implements CandidateService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@SuppressWarnings("unchecked")
 	public Response getCandidateByToken(@PathParam("token") String token) {
+		Session session = DbUtil.getSession();
 		try {
-			Session session = DbUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("from Candidate where token = :token");
 			query.setString("token", token);
 			
@@ -43,14 +43,16 @@ public class CandidateServiceImpl implements CandidateService {
 		} catch (Exception e) {
 			logger.error(e);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		} finally {
+			session.close();
 		}
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createCandidate(@Context HttpServletRequest request, CandidateBean candidate) {
+		Session session = DbUtil.getSession();
 		try {
-			Session session = DbUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), NetworkUtil.getIpAddress(request)));
 			session.getTransaction().commit();
@@ -66,6 +68,8 @@ public class CandidateServiceImpl implements CandidateService {
 		} catch (Exception e) {
 			logger.error(e);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		} finally {
+			session.close();
 		}
 	}
 }
