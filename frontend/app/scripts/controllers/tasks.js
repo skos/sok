@@ -27,7 +27,7 @@ angular.module('sokApp')
     }
 
     function confirmChange() {
-      if (vm.answerForm.taskAnswer.$dirty && !confirm('lose unsaved changes?')) {
+      if (vm.answerForm.taskAnswer.$dirty && !confirm('Przechodząc dalej, stracisz niezapisane zmiany. Chcesz kontynuować?')) {
         vm.selected = vm.oldVal;
       } else {
         getAnswer(vm.selected.id);
