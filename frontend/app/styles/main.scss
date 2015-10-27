@@ -26,7 +26,7 @@ $navbar-default-brand-hover-color:         $navbar-default-link-color;
 
 $jumbotron-bg: $white;
 
-$footer-height: 100;
+$footer-height: 100px;
 
 // bower:scss
 @import 'bootstrap-sass-official/assets/stylesheets/_bootstrap.scss';
@@ -75,7 +75,7 @@ body {
   }
 
   img {
-    width: 80;
+    width: 80px;
   }
 }
 
