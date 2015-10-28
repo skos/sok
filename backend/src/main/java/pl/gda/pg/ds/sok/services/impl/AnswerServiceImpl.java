@@ -78,9 +78,11 @@ public class AnswerServiceImpl implements AnswerService {
             return Response.status(update ? Response.Status.ACCEPTED : Response.Status.CREATED).build();
         } catch (ConstraintViolationException e) {
             logger.error(e);
+            session.getTransaction().rollback();
             return Response.status(Response.Status.CONFLICT).build();
         } catch (Exception e) {
             logger.error(e);
+            session.getTransaction().rollback();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         } finally {
             session.close();

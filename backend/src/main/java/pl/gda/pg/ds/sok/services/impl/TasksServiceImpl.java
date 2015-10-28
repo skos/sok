@@ -28,7 +28,7 @@ public class TasksServiceImpl implements TasksService {
 		Session session = DbUtil.getSession();
 		try {
 			Query query = session.createQuery("from Task");
-			
+
 			List<Task> resultList = query.list();
 			if (resultList.size() > 0) {
 				return Response.ok(resultList).build();

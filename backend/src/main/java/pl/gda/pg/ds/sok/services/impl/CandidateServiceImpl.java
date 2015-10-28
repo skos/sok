@@ -53,9 +53,7 @@ public class CandidateServiceImpl implements CandidateService {
 	public Response createCandidate(@Context HttpServletRequest request, CandidateBean candidate) {
 		Session session = DbUtil.getSession();
 		try {
-			session.beginTransaction();
 			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), NetworkUtil.getIpAddress(request)));
-			session.getTransaction().commit();
 
 			String mailBody = PropertiesUtil.getProperty("mail.body");
 			mailBody = mailBody.replace(MsgUtil.TOKEN_PLACEHOLDER, candidate.getToken());

@@ -11,6 +11,15 @@
 		<property name="connection.driver_class">org.postgresql.Driver</property>
 		<property name="dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
 
+		<!-- c3p0 settings -->
+        <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+        <property name="hibernate.c3p0.min_size">1</property>
+        <property name="hibernate.c3p0.max_size">3</property>
+        <property name="hibernate.c3p0.acquire_increment">1</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.timeout">1800</property>
+
 		<!-- change if you need to see SQL used -->
 		<property name="show_sql">false</property>
 		<property name="format_sql">false</property>
@@ -23,5 +32,7 @@
 		<property name="current_session_context_class">thread</property>
 
 		<mapping class="pl.gda.pg.ds.sok.entities.Candidate" />
+        <mapping class="pl.gda.pg.ds.sok.entities.Answer" />
+        <mapping class="pl.gda.pg.ds.sok.entities.Task" />
 	</session-factory>
 </hibernate-configuration>
