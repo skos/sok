@@ -33,6 +33,7 @@
 
 		<mapping class="pl.gda.pg.ds.sok.entities.Candidate" />
         <mapping class="pl.gda.pg.ds.sok.entities.Answer" />
+        <mapping class="pl.gda.pg.ds.sok.entities.AnswerHistory" />
         <mapping class="pl.gda.pg.ds.sok.entities.Task" />
 	</session-factory>
 </hibernate-configuration>
