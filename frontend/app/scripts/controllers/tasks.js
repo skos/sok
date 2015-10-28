@@ -14,8 +14,7 @@ angular.module('sokApp')
     var vm = this;
 
     function saveAnswer() {
-      var answer = SokApi.answer.update({content: vm.currentAnswer.content, candidateId: vm.user.id, taskId: vm.selected.id});
-      answer.$promise
+      SokApi.answer.update({content: vm.currentAnswer.content, candidateId: vm.user.id, taskId: vm.selected.id}).$promise
       .then(function() {
         vm.answerForm.$setPristine();
       });
@@ -24,11 +23,11 @@ angular.module('sokApp')
     function getAnswer(task_id) {
       vm.currentAnswer = SokApi.answer.get({taskId: task_id, token: $routeParams.token});
       vm.answerForm.$setPristine();
-      vm.oldVal = angular.copy(vm.selected);
+      vm.oldVal = vm.selected;
     }
 
     function confirmChange() {
-      if (vm.answerForm.taskAnswer.$dirty && !confirm('lose unsaved changes?')) {
+      if (vm.answerForm.taskAnswer.$dirty && !confirm('Przechodząc dalej, stracisz niezapisane zmiany. Chcesz kontynuować?')) {
         vm.selected = vm.oldVal;
       } else {
         getAnswer(vm.selected.id);

@@ -9,8 +9,8 @@
  */
  angular.module('sokApp')
  .controller('MainCtrl', 
-  ['$http', 'SokApi', 'Alerts',
-  function ($http, SokApi, Alerts) {
+  ['$http', 'SokApi',
+  function ($http, SokApi) {
     var vm = this;
 
     vm.registered = false;
@@ -24,11 +24,6 @@
         .then(
           function() {
             vm.registered = true;
-          }, 
-          function(rejection) {
-            if (rejection.status === 409) {
-              Alerts.add("danger","Użytkownik o takim adresie lub imieniu już istnieje!");
-            }
           });
       }
     };

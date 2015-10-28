@@ -1,6 +1,6 @@
 <div class="container">
 	<h2>Cześć, {{tasks.user.name}}!</h2>
-	<div uib-collapse="vm.introCollapsed">
+	<div uib-collapse="tasks.introCollapsed">
 	<p class="lead" >Fajnie, że tu trafiłeś :-). Dalsze kroki są proste:
 			<ol>
 				<li>Wybierz zadanie</li>
@@ -10,16 +10,16 @@
 			</ol>Nie ma na co czekać... Powodzenia!
 		</p>
 	</div>
-	<a href="" ng-click="vm.introCollapsed=!vm.introCollapsed">
-		<span ng-show="vm.introCollapsed">[Pokaż wprowadzenie]</span>
-		<span ng-show="!vm.introCollapsed">[Ukryj wprowadzenie]</span>
+	<a href="" ng-click="tasks.introCollapsed=!tasks.introCollapsed">
+		<span ng-show="tasks.introCollapsed">[Pokaż wprowadzenie]</span>
+		<span ng-show="!tasks.introCollapsed">[Ukryj wprowadzenie]</span>
 	</a>
 	<hr>
 	<form role="form" name="tasks.answerForm" ng-submit="tasks.saveAnswer()">
 		<div class="form-group">
 			<select class="form-control" ng-model="tasks.selected" name="taskSelect"
 			ng-options="task as ('[' + task.type + '] ' + task.title) group by ('Trudność: ' + task.difficulty) for task in tasks.taskList | orderBy:'difficulty'"
-			ng-change="tasks.confirmChange()" id="taskSelect"></select>
+			ng-change="tasks.confirmChange($index)" id="taskSelect"></select>
 		</div>
 		<div class="form-group">
 			<p id="taskContent">{{tasks.selected.content}}</p>
@@ -27,7 +27,7 @@
 			ng-model="tasks.currentAnswer.content"></textarea>
 		</div>
 		<div class="form-group">
-			<button type="submit" class="btn btn-primary pull-right">Zapisz</button>
+			<button type="submit" class="btn btn-primary pull-right" ng-disabled="tasks.answerForm.$pristine">Zapisz</button>
 		</div>
 	</form>
 </div>
