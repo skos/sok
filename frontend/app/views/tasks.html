@@ -22,7 +22,7 @@
 			ng-change="tasks.confirmChange($index)" id="taskSelect"></select>
 		</div>
 		<div class="form-group">
-			<p id="taskContent">{{tasks.selected.content}}</p>
+			<p id="taskContent" ng-bind-html="tasks.selected.content"></p>
 			<textarea rows="5" placeholder="Miejsce na Twoje rozwiązanie...." class="form-control answer" name="taskAnswer"
 			ng-model="tasks.currentAnswer.content"></textarea>
 		</div>
