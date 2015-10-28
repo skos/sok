@@ -7,6 +7,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import pl.gda.pg.ds.sok.beans.AnswerBean;
 import pl.gda.pg.ds.sok.beans.SimpleResponseBean;
 import pl.gda.pg.ds.sok.entities.Answer;
+import pl.gda.pg.ds.sok.entities.AnswerHistory;
 import pl.gda.pg.ds.sok.entities.Candidate;
 import pl.gda.pg.ds.sok.entities.Task;
 import pl.gda.pg.ds.sok.services.AnswerService;
@@ -18,6 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 import java.util.List;
 
 @Path("/answer")
@@ -55,7 +57,7 @@ public class AnswerServiceImpl implements AnswerService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @SuppressWarnings("unchecked")
-    public Response updateAnswer(@Context HttpServletRequest request, AnswerBean answer) {
+    public Response updateAnswer(@Context HttpServletRequest request, AnswerBean answer) throws ConstraintViolationException {
         Session session = DbUtil.getSession();
         try {
             session.beginTransaction();
@@ -67,20 +69,26 @@ public class AnswerServiceImpl implements AnswerService {
             List<Answer> resultList = query.list();
             if (resultList.size() > 0) {
                 Answer answerToUpdate = resultList.get(0);
+                if (answerToUpdate.getContent().equals(answer.getContent())) {
+                    throw new ConstraintViolationException("Answer not modified", null, null);
+                }
                 answerToUpdate.setContent(answer.getContent());
                 session.save(answerToUpdate);
                 update = true;
             } else {
                 session.save(new Answer(answer.getContent(), new Candidate(answer.getCandidateId()), new Task(answer.getTaskId()),NetworkUtil.getIpAddress(request)));
             }
+            session.save(new AnswerHistory(answer.getContent(), new Candidate(answer.getCandidateId()), new Task(answer.getTaskId()),NetworkUtil.getIpAddress(request)));
             session.getTransaction().commit();
 
             return Response.status(update ? Response.Status.ACCEPTED : Response.Status.CREATED).build();
         } catch (ConstraintViolationException e) {
             logger.error(e);
+            session.getTransaction().rollback();
             return Response.status(Response.Status.CONFLICT).build();
         } catch (Exception e) {
             logger.error(e);
+            session.getTransaction().rollback();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         } finally {
             session.close();
