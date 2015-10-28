@@ -21,6 +21,9 @@ angular.module('sokApp')
           case HTTP.NOT_FOUND:
             Alerts.add("danger", "Nie znaleziono obiektu.");
             break;
+          default:
+            Alerts.add("danger", "Wystąpił błąd.");
+            break;
         }
 
         return $q.reject(rejection);

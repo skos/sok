@@ -34,6 +34,12 @@
           case HTTP.NOT_FOUND:
             Alerts.add("danger", "Nie znaleziono zadania.");
             break;
+          case HTTP.CONFLICT:
+            Alerts.add("warning", "Nie wprowadzono żadnej zmiany.");
+            break;
+          default:
+            Alerts.add("danger", "Wystąpił błąd.");
+            break;
         }
 
         return $q.reject(rejection);
