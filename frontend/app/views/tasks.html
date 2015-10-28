@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-if="tasks.user && !tasks.error">
 	<h2>Cześć, {{tasks.user.name}}!</h2>
 	<div uib-collapse="tasks.introCollapsed">
 	<p class="lead" >Fajnie, że tu trafiłeś :-). Dalsze kroki są proste:
@@ -30,4 +30,7 @@
 			<button type="submit" class="btn btn-primary pull-right" ng-disabled="tasks.answerForm.$pristine">Zapisz</button>
 		</div>
 	</form>
+</div>
+<div class="container" ng-if="tasks.error">
+	<h2 class="text-center">Yyy... nie. >:(</h2>
 </div>

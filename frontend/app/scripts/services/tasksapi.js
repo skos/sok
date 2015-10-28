@@ -12,7 +12,7 @@ angular.module('sokApp')
     ['$resource', 'httpAnswerHandler', 'httpRegistrationHandler', 'httpGeneralHandler',
     function ($resource, httpAnswerHandler, httpRegistrationHandler, httpGeneralHandler) {
   
-      var apiAddress = 'http://localhost:8080/backend';
+      var apiAddress = 'http://sok.ds.pg.gda.pl/backend';
   
       return {
         tasks: $resource(apiAddress + '/tasks', {}, {

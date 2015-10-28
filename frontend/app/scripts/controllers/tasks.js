@@ -35,10 +35,15 @@ angular.module('sokApp')
     }
 
     function init() {
-      vm.user = SokApi.user.get({token: $routeParams.token});
-      vm.taskList = SokApi.tasks.query();
-      vm.taskList.$promise
-      .then(function (){
+      SokApi.user.get({token: $routeParams.token}).$promise
+      .then(function(data) {
+        vm.user = data;
+      }, function() {
+        vm.error = true;
+      })
+      SokApi.tasks.query().$promise
+      .then(function (data){
+        vm.taskList = data;
         vm.selected = vm.taskList[0];
         getAnswer(vm.selected.id);
       });
@@ -53,7 +58,7 @@ angular.module('sokApp')
     vm.getAnswer = getAnswer;
     vm.saveAnswer = saveAnswer;
     vm.confirmChange = confirmChange;
-
+    vm.error = false;
     init();
 
   }]);
