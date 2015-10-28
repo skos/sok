@@ -53,7 +53,9 @@ public class CandidateServiceImpl implements CandidateService {
 	public Response createCandidate(@Context HttpServletRequest request, CandidateBean candidate) {
 		Session session = DbUtil.getSession();
 		try {
+			session.beginTransaction();
 			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), NetworkUtil.getIpAddress(request)));
+			session.getTransaction().commit();
 
 			String mailBody = PropertiesUtil.getProperty("mail.body");
 			mailBody = mailBody.replace(MsgUtil.TOKEN_PLACEHOLDER, candidate.getToken());
@@ -62,9 +64,11 @@ public class CandidateServiceImpl implements CandidateService {
 			return Response.status(Response.Status.CREATED).build();
 		} catch (ConstraintViolationException e) {
 			logger.error(e);
+			session.getTransaction().rollback();
 			return Response.status(Response.Status.CONFLICT).build();
 		} catch (Exception e) {
 			logger.error(e);
+			session.getTransaction().rollback();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		} finally {
 			session.close();
