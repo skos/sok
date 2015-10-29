@@ -18,7 +18,7 @@
 	<form role="form" name="tasks.answerForm" ng-submit="tasks.saveAnswer()">
 		<div class="form-group">
 			<select class="form-control" ng-model="tasks.selected" name="taskSelect"
-			ng-options="task as ('[' + task.type + '] ' + task.title) group by ('Trudność: ' + task.difficulty) for task in tasks.taskList | orderBy:'difficulty'"
+			ng-options="task as ('[' + task.type + '] ' + task.title) group by ('Trudność: ' + task.difficulty) for task in tasks.taskList | orderBy:['difficulty','type','title']"
 			ng-change="tasks.confirmChange($index)" id="taskSelect"></select>
 		</div>
 		<div class="form-group">
