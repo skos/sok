@@ -64,11 +64,11 @@ public class AnswerServiceImpl implements AnswerService {
             Query query = session.createQuery("from Candidate where token = :token");
             query.setString("token", answer.getToken());
 
-            List<Candidate> candidatesList = query.list();
-            if (candidatesList.isEmpty()) {
+            List<Candidate> candidateList = query.list();
+            if (candidateList.isEmpty()) {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
-            Candidate candidate = candidatesList.get(0);
+            Candidate candidate = candidateList.get(0);
 
             query = session.createQuery("from Answer where candidate.token = :token and task.id = :taskId");
             query.setString("token", answer.getToken());
