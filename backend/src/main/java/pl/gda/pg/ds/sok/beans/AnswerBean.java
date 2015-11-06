@@ -6,15 +6,15 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class AnswerBean {
 
 	private String content;
-	private String candidateId;
+	private String token;
 	private String taskId;
 	
 	public String getContent() {
 		return content;
 	}
 	
-	public Long getCandidateId() {
-		return Long.parseLong(candidateId);
+	public String getToken() {
+		return token;
 	}
 	
 	public Long getTaskId() {

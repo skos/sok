@@ -61,8 +61,17 @@ public class AnswerServiceImpl implements AnswerService {
         Session session = DbUtil.getSession();
         try {
             session.beginTransaction();
-            Query query = session.createQuery("from Answer where candidate.id = :candidateId and task.id = :taskId");
-            query.setLong("candidateId", answer.getCandidateId());
+            Query query = session.createQuery("from Candidate where token = :token");
+            query.setString("token", answer.getToken());
+
+            List<Candidate> candidatesList = query.list();
+            if (candidatesList.isEmpty()) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+            Candidate candidate = candidatesList.get(0);
+
+            query = session.createQuery("from Answer where candidate.token = :token and task.id = :taskId");
+            query.setString("token", answer.getToken());
             query.setLong("taskId", answer.getTaskId());
 
             boolean update = false;
@@ -76,9 +85,9 @@ public class AnswerServiceImpl implements AnswerService {
                 session.save(answerToUpdate);
                 update = true;
             } else {
-                session.save(new Answer(answer.getContent(), new Candidate(answer.getCandidateId()), new Task(answer.getTaskId()),NetworkUtil.getIpAddress(request)));
+                session.save(new Answer(answer.getContent(), candidate, new Task(answer.getTaskId()),NetworkUtil.getIpAddress(request)));
             }
-            session.save(new AnswerHistory(answer.getContent(), new Candidate(answer.getCandidateId()), new Task(answer.getTaskId()),NetworkUtil.getIpAddress(request)));
+            session.save(new AnswerHistory(answer.getContent(), candidate, new Task(answer.getTaskId()),NetworkUtil.getIpAddress(request)));
             session.getTransaction().commit();
 
             return Response.status(update ? Response.Status.ACCEPTED : Response.Status.CREATED).build();
