@@ -3,6 +3,18 @@ apply plugin: 'jetty'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
+task prod() << {
+    war.archiveName 'backend.war'
+
+    ant.replace(file: "src/main/resources/hibernate.cfg.xml", token: "sokdev", value: "sok")
+}
+
+war {
+    archiveName 'backend-dev.war'
+}
+
+build.shouldRunAfter prod
+
 repositories {
   mavenCentral()
 }
