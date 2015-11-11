@@ -5,3 +5,5 @@ mail.subject=SUBJECT
 mail.body=BODY
 
 filters.Access-Control-Allow-Origin=*
+
+admin.domain=@ds.pg.gda.pl
