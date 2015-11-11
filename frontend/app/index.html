@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>System Odsiewania Kandydatów SKOS PG</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
   <!-- build:css(.) styles/vendor.css -->
@@ -29,7 +29,7 @@
               <span class="icon-bar"></span>
             </button>
             <span class="navbar-brand visible-xs-inline-block">SOK.ds.pg.gda.pl</span>
-            <span class="navbar-brand hidden-xs">System Odsiewania Kandydatów</span>
+            <span class="navbar-brand hidden-xs"><!-- @if env!='production' -->[DEV] <!-- @endif -->System Odsiewania Kandydatów</span>
           </div>
 
           <div class="collapse navbar-collapse" uib-collapse="menu.collapsed">
@@ -62,7 +62,9 @@
     <div class="container">
       <div class="col-md-10 col-md-offset-1">
         <p class="text-muted navbar-right copyright">&copy; SKOS PG 2015</p>
-        <p class="navbar-right github"><a href="https://github.com/skos/sok"><img src="images/GitHub-Mark-64px.png" width="32" height="32" alt="SOK na Githubie!" title="SOK na Githubie!"></a></p>
+        <p class="navbar-right github"><a href="https://github.com/skos/sok">
+          <img src="images/GitHub-Mark-64px.png" width="32" height="32" alt="SOK na Githubie!" title="SOK na Githubie! (<!-- @echo rev -->)"> 
+        </a></p>
         <img src="images/SKOS.svg" class="logo">
       </div>
     </div>

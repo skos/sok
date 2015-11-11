@@ -439,6 +439,25 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    revision: {
+      options: {
+        property: 'revision.rev'
+      }
+    },
+
+    preprocess: {
+      inline: {
+        src: ['<%= yeoman.dist %>/*.html', '<%= yeoman.dist %>/scripts/scripts*.js'],
+        options: {
+          inline: true,
+          context: {
+            rev: '<%= revision.rev %>',
+            env: process.env.TARGET || 'development'
+          }
+        }
+      }
     }
   });
 
@@ -487,7 +506,9 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'revision',
+    'preprocess:inline'
   ]);
 
   grunt.registerTask('default', [
@@ -495,4 +516,6 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.loadNpmTasks('grunt-git-revision');
 };
