@@ -454,7 +454,8 @@ module.exports = function (grunt) {
           inline: true,
           context: {
             rev: '<%= revision.rev %>',
-            env: process.env.TARGET || 'development'
+            env: process.env.TARGET || 'dev',
+            apiAddress: process.env.API_ADDRESS || 'http://localhost:9000'
           }
         }
       }

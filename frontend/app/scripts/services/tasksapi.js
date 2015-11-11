@@ -12,12 +12,7 @@ angular.module('sokApp')
     ['$resource', 'httpAnswerHandler', 'httpRegistrationHandler', 'httpGeneralHandler',
     function ($resource, httpAnswerHandler, httpRegistrationHandler, httpGeneralHandler) {
   
-      //@if env='production'
-      var apiAddress = 'http://sok.ds.pg.gda.pl/backend';
-      //@endif
-      //@if env!='production'
-      var apiAddress = 'http://sok-dev.ds.pg.gda.pl/backend';
-      //@endif
+      var apiAddress = '/* @echo apiAddress */';
 
       return {
         tasks: $resource(apiAddress + '/tasks', {}, {
