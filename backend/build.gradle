@@ -4,16 +4,22 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 task prod() << {
-    war.archiveName 'backend.war'
+  war.archiveName 'backend.war'
 
-    ant.replace(file: "src/main/resources/hibernate.cfg.xml", token: "sokdev", value: "sok")
+  ant.replace(file: "src/main/resources/hibernate.cfg.xml", token: "sokdev", value: "sok")
+  ant.replace(file: "src/main/resources/config.properties", token: "BUILD_TOKEN", value: getDate())
+  ant.replace(file: "src/main/resources/config.properties", token: "VERSION_TOKEN", value: "prod")
 }
 
-war {
-    archiveName 'backend-dev.war'
+task dev() << {
+  archiveName 'backend-dev.war'
+
+  ant.replace(file: "src/main/resources/config.properties", token: "BUILD_TOKEN", value: getDate())
+  ant.replace(file: "src/main/resources/config.properties", token: "VERSION_TOKEN", value: "dev")
 }
 
 build.shouldRunAfter prod
+build.shouldRunAfter dev
 
 repositories {
   mavenCentral()
@@ -35,6 +41,13 @@ dependencies {
   compile 'javax.mail:mail:1.4'
   compile 'org.mockito:mockito-all:1.9.5'
   compile 'javax.el:javax.el-api:3.0.0'
+  compile 'com.google.guava:guava:12.0'
 
   testCompile 'junit:junit:4.4'
+}
+
+def getDate() {
+  def date = new Date()
+  def formattedDate = date.format('yyyyMMddHHmmss')
+  return formattedDate
 }
