@@ -22,6 +22,7 @@ public class AboutServiceImpl implements AboutService {
 	public Response getAbout() {
 		Map<String,String> about = Maps.newHashMap();
 		about.put("build", PropertiesUtil.getProperty("app.build"));
+		about.put("version", PropertiesUtil.getProperty("app.version"));
 		return Response.ok(about).build();
 	}
 }
