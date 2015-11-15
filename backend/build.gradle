@@ -3,23 +3,51 @@ apply plugin: 'jetty'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
+task prepareResources() << {
+  processResources {
+    outputs.upToDateWhen {
+      return false;
+    }
+    filesMatching('config.properties') {
+      filter { line -> line.contains('app.build') ? 'app.build='+getDate() : line }
+    }
+  }
+}
+
 task prod() << {
   war.archiveName 'backend.war'
-
-  ant.replace(file: "src/main/resources/hibernate.cfg.xml", token: "sokdev", value: "sok")
-  ant.replace(file: "src/main/resources/config.properties", token: "BUILD_TOKEN", value: getDate())
-  ant.replace(file: "src/main/resources/config.properties", token: "VERSION_TOKEN", value: "prod")
+  processResources {
+    filesMatching('config.properties') {
+      filter { line -> line.contains('app.version') ? 'app.version=prod' : line }
+      filter { line -> line.contains('mail.server') ? 'mail.server='+System.getenv('SOK_MAILSERVER') : line }
+    }
+    filesMatching('hibernate.cfg.xml') {
+      filter { line -> line.contains('connection.url') ? '<property name="connection.url">jdbc:postgresql://'+System.getenv('SOK_PROD_DBSERVER')+':5432/'+System.getenv('SOK_PROD_DBNAME')+'</property>' : line }
+      filter { line -> line.contains('connection.username') ? '<property name="connection.username">'+System.getenv('SOK_PROD_DBUSER')+'</property>' : line }
+      filter { line -> line.contains('connection.password') ? '<property name="connection.password">'+System.getenv('SOK_PROD_DBPASS')+'</property>' : line }
+    }
+  }
 }
 
 task dev() << {
-  archiveName 'backend-dev.war'
-
-  ant.replace(file: "src/main/resources/config.properties", token: "BUILD_TOKEN", value: getDate())
-  ant.replace(file: "src/main/resources/config.properties", token: "VERSION_TOKEN", value: "dev")
+  war.archiveName 'backend-dev.war'
+  processResources {
+    from('src/main/resources') {
+      include 'config.properties'
+      filter { line -> line.contains('app.version') ? 'app.version=dev' : line }
+      filter { line -> line.contains('mail.server') ? 'mail.server='+System.getenv('SOK_MAILSERVER') : line }
+    }
+    filesMatching('hibernate.cfg.xml') {
+      filter { line -> line.contains('connection.url') ? '<property name="connection.url">jdbc:postgresql://'+System.getenv('SOK_DEV_DBSERVER')+':5432/'+System.getenv('SOK_DEV_DBNAME')+'</property>' : line }
+      filter { line -> line.contains('connection.username') ? '<property name="connection.username">'+System.getenv('SOK_DEV_DBUSER')+'</property>' : line }
+      filter { line -> line.contains('connection.password') ? '<property name="connection.password">'+System.getenv('SOK_DEV_DBPASS')+'</property>' : line }
+    }
+  }
 }
 
-build.shouldRunAfter prod
-build.shouldRunAfter dev
+processResources.dependsOn prepareResources
+prepareResources.shouldRunAfter prod
+prepareResources.shouldRunAfter dev
 
 repositories {
   mavenCentral()
