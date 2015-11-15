@@ -14,14 +14,14 @@ angular.module('sokApp')
     var vm = this;
 
     function saveAnswer() {
-      SokApi.answer.update({content: vm.currentAnswer.content, candidateId: vm.user.id, taskId: vm.selected.id}).$promise
+      SokApi.answer.update({content: vm.currentAnswer.content, token: vm.user.token, taskId: vm.selected.id}).$promise
       .then(function() {
         vm.answerForm.$setPristine();
       });
     }
 
     function getAnswer(task_id) {
-      vm.currentAnswer = SokApi.answer.get({taskId: task_id, token: $routeParams.token});
+      vm.currentAnswer = SokApi.answer.get({taskId: task_id, token: vm.user.token});
       vm.answerForm.$setPristine();
       vm.oldVal = vm.selected;
     }
