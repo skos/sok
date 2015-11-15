@@ -13,6 +13,9 @@ angular.module('sokApp')
     function ($resource, httpAnswerHandler, httpRegistrationHandler, httpGeneralHandler) {
   
       var apiAddress = '/* @echo apiAddress */';
+      //@exclude
+      var apiAddress = 'http://localhost:8080/backend'; // jshint ignore:line
+      //@endexclude
 
       return {
         tasks: $resource(apiAddress + '/tasks', {}, {
