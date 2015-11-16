@@ -9,8 +9,8 @@
 */
 angular.module('sokApp')
 .controller('TasksCtrl', 
-  ['$http','$routeParams', '$window', 'SokApi',
-  function ($http, $routeParams, $window, SokApi) {
+  ['$http', 'SokApi', 'resourceData',
+  function ($http, SokApi, resourceData) {
     var vm = this;
 
     function saveAnswer() {
@@ -22,43 +22,27 @@ angular.module('sokApp')
 
     function getAnswer(task_id) {
       vm.currentAnswer = SokApi.answer.get({taskId: task_id, token: vm.user.token});
-      vm.answerForm.$setPristine();
-      vm.oldVal = vm.selected;
+      if (vm.answerForm) { vm.answerForm.$setPristine(); }
+      vm.oldSelected = vm.selected; // keep reference to first-selected item
     }
 
     function confirmChange() {
       if (vm.answerForm.taskAnswer.$dirty && !confirm('Przechodząc dalej, stracisz niezapisane zmiany. Chcesz kontynuować?')) {
-        vm.selected = vm.oldVal;
+        vm.selected = vm.oldSelected;
       } else {
         getAnswer(vm.selected.id);
       }
     }
 
-    function init() {
-      SokApi.user.get({token: $routeParams.token}).$promise
-      .then(function(data) {
-        vm.user = data;
-      }, function() {
-        vm.error = true;
-      })
-      SokApi.tasks.query().$promise
-      .then(function (data){
-        vm.taskList = data;
-        vm.selected = vm.taskList[0];
-        getAnswer(vm.selected.id);
-      });
-    }
-
-    vm.user = null;
-    vm.taskList = null;
+    vm.user = resourceData[0];
+    vm.taskList = resourceData[1];
     vm.currentAnswer = null;
-    vm.selected = null;
-    vm.oldVal = null;
+    vm.selected = vm.taskList[0];
+    vm.oldSelected = null;
     vm.introCollapsed = false;
     vm.getAnswer = getAnswer;
     vm.saveAnswer = saveAnswer;
     vm.confirmChange = confirmChange;
-    vm.error = false;
-    init();
+    getAnswer(vm.selected.id);
 
   }]);

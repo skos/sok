@@ -8,24 +8,12 @@
  * Controller of the sokApp
  */
  angular.module('sokApp')
- .controller('MainCtrl', 
-  ['$http', 'SokApi',
-  function ($http, SokApi) {
-    var vm = this;
+ .controller('MainCtrl',
+  ['$location', '$scope',
+  function ($location, $scope) {
+      var vm = this;
 
-    vm.registered = false;
-    vm.error = false;
-    vm.user = {name: '', email: ''};
-
-    vm.registerUser = function() {
-      if (vm.registerForm.$valid) {
-
-        SokApi.user.save(vm.user).$promise
-        .then(
-          function() {
-            vm.registered = true;
-          });
-      }
-    };
-
+      $scope.$on("$routeChangeError", function () {
+        $location.path('error')
+    });
   }]);
