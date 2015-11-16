@@ -22,9 +22,9 @@ task prod() << {
       filter { line -> line.contains('mail.server') ? 'mail.server='+System.getenv('SOK_MAILSERVER') : line }
     }
     filesMatching('hibernate.cfg.xml') {
-      filter { line -> line.contains('connection.url') ? '<property name="connection.url">jdbc:postgresql://'+System.getenv('SOK_PROD_DBSERVER')+':5432/'+System.getenv('SOK_PROD_DBNAME')+'</property>' : line }
-      filter { line -> line.contains('connection.username') ? '<property name="connection.username">'+System.getenv('SOK_PROD_DBUSER')+'</property>' : line }
-      filter { line -> line.contains('connection.password') ? '<property name="connection.password">'+System.getenv('SOK_PROD_DBPASS')+'</property>' : line }
+      filter { line -> line.contains('connection.url') ? '<property name="connection.url">jdbc:postgresql://'+System.getenv('SOK_DBSERVER')+':5432/'+System.getenv('SOK_DBNAME')+'</property>' : line }
+      filter { line -> line.contains('connection.username') ? '<property name="connection.username">'+System.getenv('SOK_DBUSER')+'</property>' : line }
+      filter { line -> line.contains('connection.password') ? '<property name="connection.password">'+System.getenv('SOK_DBPASS')+'</property>' : line }
     }
   }
 }
@@ -38,9 +38,9 @@ task dev() << {
       filter { line -> line.contains('mail.server') ? 'mail.server='+System.getenv('SOK_MAILSERVER') : line }
     }
     filesMatching('hibernate.cfg.xml') {
-      filter { line -> line.contains('connection.url') ? '<property name="connection.url">jdbc:postgresql://'+System.getenv('SOK_DEV_DBSERVER')+':5432/'+System.getenv('SOK_DEV_DBNAME')+'</property>' : line }
-      filter { line -> line.contains('connection.username') ? '<property name="connection.username">'+System.getenv('SOK_DEV_DBUSER')+'</property>' : line }
-      filter { line -> line.contains('connection.password') ? '<property name="connection.password">'+System.getenv('SOK_DEV_DBPASS')+'</property>' : line }
+      filter { line -> line.contains('connection.url') ? '<property name="connection.url">jdbc:postgresql://'+System.getenv('SOK_DBSERVER')+':5432/'+System.getenv('SOK_DBNAME')+'</property>' : line }
+      filter { line -> line.contains('connection.username') ? '<property name="connection.username">'+System.getenv('SOK_DBUSER')+'</property>' : line }
+      filter { line -> line.contains('connection.password') ? '<property name="connection.password">'+System.getenv('SOK_DBPASS')+'</property>' : line }
     }
   }
 }
@@ -78,4 +78,8 @@ def getDate() {
   def date = new Date()
   def formattedDate = date.format('yyyyMMddHHmmss')
   return formattedDate
+}
+
+def updateHiberbateConf() {
+
 }
