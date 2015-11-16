@@ -450,16 +450,19 @@ module.exports = function (grunt) {
     },
 
     preprocess: {
-      inline: {
-        src: ['<%= yeoman.dist %>/*.html', '<%= yeoman.dist %>/scripts/scripts*.js'],
-        options: {
+      options: {
           inline: true,
           context: {
             rev: '<%= revision.rev %>',
             env: process.env.TARGET || 'dev',
             apiAddress: process.env.API_ADDRESS || 'http://localhost:8080/backend'
           }
-        }
+        },
+      html: {
+        src: ['<%= yeoman.dist %>/*.html']
+      },
+      js: {
+        src: ['.tmp/concat/scripts/scripts.js']
       }
     }
   });
@@ -501,17 +504,18 @@ module.exports = function (grunt) {
     'concurrent:dist',
     'autoprefixer',
     'ngtemplates',
+    'revision',
     'concat',
+    'preprocess:js',
     'ngAnnotate',
     'copy:dist',
+    'preprocess:html',
     'cdnify',
     'cssmin',
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin',
-    'revision',
-    'preprocess:inline'
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [
