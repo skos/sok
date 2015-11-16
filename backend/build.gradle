@@ -79,7 +79,3 @@ def getDate() {
   def formattedDate = date.format('yyyyMMddHHmmss')
   return formattedDate
 }
-
-def updateHiberbateConf() {
-
-}
