@@ -28,4 +28,8 @@ public class PropertiesUtil {
 		}
 		return null;
 	}
+
+	public static boolean canAdmin(String email) {
+		return email.endsWith(PropertiesUtil.getProperty("admin.domain"));
+	}
 }
