@@ -58,6 +58,7 @@ public class CandidateServiceImpl implements CandidateService {
 			session.getTransaction().commit();
 
 			String mailBody = PropertiesUtil.getProperty("mail.body");
+			mailBody = mailBody.replace(MsgUtil.HOST_PLACEHOLDER, request.getServerName());
 			mailBody = mailBody.replace(MsgUtil.TOKEN_PLACEHOLDER, candidate.getToken());
 			MsgUtil.sendMail(candidate.getEmail(), candidate.getName(), PropertiesUtil.getProperty("mail.subject"), mailBody);
 
