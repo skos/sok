@@ -40,4 +40,12 @@ public class AnswerHistory implements Serializable {
 		this.ip = ip;
 		this.answerDate = new Date();
 	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public Date getAnswerDate() {
+		return answerDate;
+	}
 }

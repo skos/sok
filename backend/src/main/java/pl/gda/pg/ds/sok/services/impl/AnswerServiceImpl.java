@@ -5,7 +5,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 import pl.gda.pg.ds.sok.beans.AnswerBean;
-import pl.gda.pg.ds.sok.beans.SimpleResponseBean;
 import pl.gda.pg.ds.sok.entities.Answer;
 import pl.gda.pg.ds.sok.entities.AnswerHistory;
 import pl.gda.pg.ds.sok.entities.Candidate;
@@ -13,13 +12,13 @@ import pl.gda.pg.ds.sok.entities.Task;
 import pl.gda.pg.ds.sok.services.AnswerService;
 import pl.gda.pg.ds.sok.utils.DbUtil;
 import pl.gda.pg.ds.sok.utils.NetworkUtil;
+import pl.gda.pg.ds.sok.utils.PropertiesUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.SQLException;
 import java.util.List;
 
 @Path("/answer")
@@ -40,9 +39,45 @@ public class AnswerServiceImpl implements AnswerService {
 
             List<Answer> resultList = query.list();
             if (resultList.size() > 0) {
-                SimpleResponseBean arb = new SimpleResponseBean();
-                arb.setContent(resultList.get(0).getContent());
-                return Response.ok(arb).build();
+                return Response.ok(resultList.get(0)).build();
+            } else {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            logger.error(e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            session.close();
+        }
+    }
+
+    @GET
+    @Path("/{taskId}/{token}/{authToken}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @SuppressWarnings("unchecked")
+    public Response getAnswerByTaskAndTokenForAdmin(@PathParam("taskId") String taskId, @PathParam("token") String token, @PathParam("authToken") String authToken) {
+        Session session = DbUtil.getSession();
+        try {
+            Query query = session.createQuery("from Candidate where token = :token");
+            query.setString("token", authToken);
+
+            List<Candidate> candidateList = query.list();
+            if (candidateList.isEmpty()) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+            Candidate candidate = candidateList.get(0);
+
+            if (!PropertiesUtil.canAdmin(candidate.getEmail())) {
+                return Response.status(Response.Status.UNAUTHORIZED).build();
+            }
+
+            query = session.createQuery("from AnswerHistory a where a.task.id = :taskId and a.candidate.token = :token order by answerDate desc");
+            query.setLong("taskId", Long.parseLong(taskId));
+            query.setString("token", token);
+
+            List<AnswerHistory> resultList = query.list();
+            if (resultList.size() > 0) {
+                return Response.ok(resultList).build();
             } else {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }

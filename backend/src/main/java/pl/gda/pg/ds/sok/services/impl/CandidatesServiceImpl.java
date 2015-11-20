@@ -24,15 +24,15 @@ public class CandidatesServiceImpl implements CandidatesService {
 	private static final Logger logger = Logger.getLogger(CandidatesServiceImpl.class);
 
 	@GET
-	@Path("/{token}")
+	@Path("/{authToken}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@SuppressWarnings("unchecked")
-	public Response getCandidates(@PathParam("token") String token) {
+	public Response getCandidatesForAdmin(@PathParam("authToken") String authToken) {
 		Session session = DbUtil.getSession();
 
 		try {
 			Query query = session.createQuery("from Candidate where token = :token");
-			query.setString("token", token);
+			query.setString("token", authToken);
 
 			List<Candidate> candidateList = query.list();
 			if (candidateList.isEmpty()) {
@@ -40,7 +40,7 @@ public class CandidatesServiceImpl implements CandidatesService {
 			}
 			Candidate candidate = candidateList.get(0);
 
-			if (!candidate.getEmail().endsWith(PropertiesUtil.getProperty("admin.domain"))) {
+			if (!PropertiesUtil.canAdmin(candidate.getEmail())) {
 				return Response.status(Response.Status.UNAUTHORIZED).build();
 			}
 

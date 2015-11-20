@@ -43,21 +43,9 @@ public class Answer implements Serializable  {
 		this.ip = ip;
 		this.answerDate = new Date();
 	}
-	
-	public Long getId() {
-		return id;
-	}
-	
+
 	public String getContent() {
 		return content;
-	}
-	
-	public Candidate getCandidate() {
-		return candidate;
-	}
-	
-	public Task getTask() {
-		return task;
 	}
 
 	public void setContent(String content) {

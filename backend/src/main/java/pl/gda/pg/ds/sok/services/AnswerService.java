@@ -8,5 +8,6 @@ import pl.gda.pg.ds.sok.beans.AnswerBean;
 public interface AnswerService {
 
 	Response getAnswerByTaskAndToken(String taskId, String token);
+	Response getAnswerByTaskAndTokenForAdmin(String taskId, String token, String authToken);
 	Response updateAnswer(HttpServletRequest request, AnswerBean answer);
 }
