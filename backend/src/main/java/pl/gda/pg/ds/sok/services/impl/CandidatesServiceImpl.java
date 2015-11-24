@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/candidates")
-public class CandidatesServiceImpl implements CandidatesService {
+public class CandidatesServiceImpl extends AbstractService implements CandidatesService {
 	
 	private static final Logger logger = Logger.getLogger(CandidatesServiceImpl.class);
 
@@ -28,23 +28,12 @@ public class CandidatesServiceImpl implements CandidatesService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@SuppressWarnings("unchecked")
 	public Response getCandidatesForAdmin(@PathParam("authToken") String authToken) {
-		Session session = DbUtil.getSession();
-
 		try {
-			Query query = session.createQuery("from Candidate where token = :token");
-			query.setString("token", authToken);
-
-			List<Candidate> candidateList = query.list();
-			if (candidateList.isEmpty()) {
-				return Response.status(Response.Status.NOT_FOUND).build();
-			}
-			Candidate candidate = candidateList.get(0);
-
-			if (!PropertiesUtil.canAdmin(candidate.getEmail())) {
+			if (!canAdmin(authToken)) {
 				return Response.status(Response.Status.UNAUTHORIZED).build();
 			}
 
-			query = session.createQuery("from Candidate");
+			Query query = session.createQuery("from Candidate");
 
 			List<Candidate> resultList = query.list();
 			if (resultList.size() > 0) {

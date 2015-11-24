@@ -17,7 +17,7 @@ import pl.gda.pg.ds.sok.services.TasksService;
 import pl.gda.pg.ds.sok.utils.DbUtil;
 
 @Path("/tasks")
-public class TasksServiceImpl implements TasksService {
+public class TasksServiceImpl extends AbstractService implements TasksService {
 	
 	private static final Logger logger = Logger.getLogger(TasksServiceImpl.class);
 
@@ -25,7 +25,6 @@ public class TasksServiceImpl implements TasksService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@SuppressWarnings("unchecked")
 	public Response getTasks() {
-		Session session = DbUtil.getSession();
 		try {
 			Query query = session.createQuery("from Task");
 

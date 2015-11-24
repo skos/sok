@@ -20,7 +20,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/user")
-public class CandidateServiceImpl implements CandidateService {
+public class CandidateServiceImpl extends AbstractService implements CandidateService {
 	
 	private static final Logger logger = Logger.getLogger(CandidateServiceImpl.class);
 
@@ -29,14 +29,15 @@ public class CandidateServiceImpl implements CandidateService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@SuppressWarnings("unchecked")
 	public Response getCandidateByToken(@PathParam("token") String token) {
-		Session session = DbUtil.getSession();
 		try {
 			Query query = session.createQuery("from Candidate where token = :token");
 			query.setString("token", token);
 			
 			List<Candidate> resultList = query.list();
 			if (resultList.size() > 0) {
-				return Response.ok(resultList.get(0)).build();
+				Candidate candidate = resultList.get(0);
+				CandidateBean candidateBean = new CandidateBean(candidate.getToken(), candidate.getName(), candidate.getEmail(), canAdmin(token));
+				return Response.ok(candidateBean).build();
 			} else {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
@@ -51,7 +52,6 @@ public class CandidateServiceImpl implements CandidateService {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createCandidate(@Context HttpServletRequest request, CandidateBean candidate) {
-		Session session = DbUtil.getSession();
 		try {
 			session.beginTransaction();
 			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), NetworkUtil.getIpAddress(request)));

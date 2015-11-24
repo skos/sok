@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/answer")
-public class AnswerServiceImpl implements AnswerService {
+public class AnswerServiceImpl extends AbstractService implements AnswerService {
 
     private static final Logger logger = Logger.getLogger(AnswerServiceImpl.class);
 
@@ -31,7 +31,6 @@ public class AnswerServiceImpl implements AnswerService {
     @Produces(MediaType.APPLICATION_JSON)
     @SuppressWarnings("unchecked")
     public Response getAnswerByTaskAndToken(@PathParam("taskId") String taskId, @PathParam("token") String token) {
-        Session session = DbUtil.getSession();
         try {
             Query query = session.createQuery("from Answer a where a.task.id = :taskId and a.candidate.token = :token");
             query.setLong("taskId", Long.parseLong(taskId));
@@ -56,22 +55,12 @@ public class AnswerServiceImpl implements AnswerService {
     @Produces(MediaType.APPLICATION_JSON)
     @SuppressWarnings("unchecked")
     public Response getAnswerByTaskAndTokenForAdmin(@PathParam("taskId") String taskId, @PathParam("token") String token, @PathParam("authToken") String authToken) {
-        Session session = DbUtil.getSession();
         try {
-            Query query = session.createQuery("from Candidate where token = :token");
-            query.setString("token", authToken);
-
-            List<Candidate> candidateList = query.list();
-            if (candidateList.isEmpty()) {
-                return Response.status(Response.Status.NOT_FOUND).build();
-            }
-            Candidate candidate = candidateList.get(0);
-
-            if (!PropertiesUtil.canAdmin(candidate.getEmail())) {
+            if (!canAdmin(authToken)) {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
 
-            query = session.createQuery("from AnswerHistory a where a.task.id = :taskId and a.candidate.token = :token order by answerDate desc");
+            Query query = session.createQuery("from AnswerHistory a where a.task.id = :taskId and a.candidate.token = :token order by answerDate desc");
             query.setLong("taskId", Long.parseLong(taskId));
             query.setString("token", token);
 
@@ -93,7 +82,6 @@ public class AnswerServiceImpl implements AnswerService {
     @Consumes(MediaType.APPLICATION_JSON)
     @SuppressWarnings("unchecked")
     public Response updateAnswer(@Context HttpServletRequest request, AnswerBean answer) throws ConstraintViolationException {
-        Session session = DbUtil.getSession();
         try {
             session.beginTransaction();
             Query query = session.createQuery("from Candidate where token = :token");
