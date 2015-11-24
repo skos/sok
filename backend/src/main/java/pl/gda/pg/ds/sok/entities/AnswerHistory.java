@@ -6,11 +6,15 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "answershistory")
 public class AnswerHistory implements Serializable {
+
+	private static final long serialVersionUID = 4597203050079960763L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +33,8 @@ public class AnswerHistory implements Serializable {
 	@NotNull
 	@Column(columnDefinition = "timestamp with time zone default now()")
 	private Date answerDate;
+	@OneToMany(mappedBy="answer",cascade=CascadeType.PERSIST)
+	private List<Rate> rates = new ArrayList<>();
 
 	public AnswerHistory() {
 	}

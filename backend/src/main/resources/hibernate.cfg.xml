@@ -31,5 +31,6 @@
         <mapping class="pl.gda.pg.ds.sok.entities.Answer" />
         <mapping class="pl.gda.pg.ds.sok.entities.AnswerHistory" />
         <mapping class="pl.gda.pg.ds.sok.entities.Task" />
+		<mapping class="pl.gda.pg.ds.sok.entities.Rate" />
 	</session-factory>
 </hibernate-configuration>
