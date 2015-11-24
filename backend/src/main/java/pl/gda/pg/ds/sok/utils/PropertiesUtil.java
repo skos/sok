@@ -19,7 +19,7 @@ public class PropertiesUtil {
 			Properties properties = new Properties();
 			try {
 	            properties.load(inputStream);
-	            return new String(properties.getProperty(propertyName).getBytes("ISO-8859-1"));
+				return new String(properties.getProperty(propertyName).getBytes("ISO-8859-1"), "UTF-8");
 	        } catch (IOException e) {
 	        	logger.fatal("Problem reading properties file", e);
 	        }
