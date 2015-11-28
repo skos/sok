@@ -34,7 +34,7 @@ public class AnswerHistory implements Serializable {
 	@Column(columnDefinition = "timestamp with time zone default now()")
 	private Date answerDate;
 	@OneToMany(mappedBy="answer",cascade=CascadeType.PERSIST)
-	private List<Rate> rates = new ArrayList<>();
+	private List<Rating> ratings = new ArrayList<>();
 
 	public AnswerHistory() {
 	}
@@ -45,6 +45,10 @@ public class AnswerHistory implements Serializable {
 		this.task = task;
 		this.ip = ip;
 		this.answerDate = new Date();
+	}
+
+	public Long getId() {
+		return id;
 	}
 
 	public String getContent() {

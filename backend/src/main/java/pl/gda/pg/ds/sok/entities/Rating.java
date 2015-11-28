@@ -5,15 +5,12 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "rates")
-public class Rate implements Serializable {
+@Table(name = "ratings")
+public class Rating implements Serializable {
 
 	private static final long serialVersionUID = 5045398735786695881L;
 
@@ -22,7 +19,7 @@ public class Rate implements Serializable {
 	private Long id;
 	@NotNull
 	@Column(columnDefinition = "smallint default 1")
-	private int rate;
+	private int rating;
 	@NotNull
 	@Type(type="text")
 	private String comment;
@@ -35,13 +32,16 @@ public class Rate implements Serializable {
 	private Date date;
 	@ManyToOne
 	private AnswerHistory answer;
+	@ManyToOne
+	private Candidate assessor;
 
-	public Rate() {
+	public Rating() {
 	}
 
-	public Rate(int rate, String comment, AnswerHistory answer, String ip) {
-		this.rate = rate;
+	public Rating(int rating, String comment, Candidate assessor, AnswerHistory answer, String ip) {
+		this.rating = rating;
 		this.comment = comment;
+		this.assessor = assessor;
 		this.answer = answer;
 		this.ip = ip;
 		this.date = new Date();
@@ -51,11 +51,23 @@ public class Rate implements Serializable {
 		return id;
 	}
 
-	public int getRate() {
-		return rate;
+	public int getRating() {
+		return rating;
 	}
 
 	public String getComment() {
 		return comment;
+	}
+
+	public Long getAnswerId() {
+		return answer.getId();
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

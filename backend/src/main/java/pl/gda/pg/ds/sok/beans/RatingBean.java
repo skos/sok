@@ -2,19 +2,24 @@ package pl.gda.pg.ds.sok.beans;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import java.util.UUID;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RateBean {
+public class RatingBean {
 
-	private int rate;
+	private int rating;
 	private String comment;
 	private String token;
 	private String taskId;
-	private  String authToken;
+	private String authToken;
+	private boolean isFresh;
 
-	public int getRate() {
-		return rate;
+	public RatingBean(int rating, String comment, boolean isFresh) {
+		this.rating = rating;
+		this.comment = comment;
+		this.isFresh = isFresh;
+	}
+
+	public int getRating() {
+		return rating;
 	}
 
 	public String getComment() {
@@ -31,5 +36,9 @@ public class RateBean {
 
 	public String getAuthToken() {
 		return authToken;
+	}
+
+	public boolean isFresh() {
+		return isFresh;
 	}
 }
