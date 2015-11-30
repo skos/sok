@@ -45,7 +45,7 @@ public class Candidate implements Serializable  {
 	@Column(columnDefinition = "timestamp with time zone default now()")
 	private Date registrationDate;
 	@OneToMany(mappedBy="candidate",cascade=CascadeType.PERSIST)
-	private List<Answer> answers = new ArrayList<>();
+	private List<AnswerHistory> answers = new ArrayList<>();
 	
 	public Candidate() {
 	}

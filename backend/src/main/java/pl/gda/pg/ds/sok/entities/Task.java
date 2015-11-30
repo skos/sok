@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
+import org.mockito.stubbing.Answer;
 
 @Entity
 @Table(name = "tasks")
@@ -32,7 +33,7 @@ public class Task implements Serializable  {
 	@Column(columnDefinition = "smallint default 1")
     private Integer difficulty;
 	@OneToMany(mappedBy="task",cascade=CascadeType.PERSIST)
-    private List<Answer> answers = new ArrayList<>();
+    private List<AnswerHistory> answers = new ArrayList<>();
 	
 	public Task() {
 	}

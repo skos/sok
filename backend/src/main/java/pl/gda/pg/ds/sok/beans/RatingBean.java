@@ -10,11 +10,16 @@ public class RatingBean {
 	private String token;
 	private String taskId;
 	private String authToken;
+	private String authorName;
 	private boolean isFresh;
 
-	public RatingBean(int rating, String comment, boolean isFresh) {
+	public RatingBean() {
+	}
+
+	public RatingBean(int rating, String comment, String authorName, boolean isFresh) {
 		this.rating = rating;
 		this.comment = comment;
+		this.authorName = authorName;
 		this.isFresh = isFresh;
 	}
 
@@ -36,6 +41,10 @@ public class RatingBean {
 
 	public String getAuthToken() {
 		return authToken;
+	}
+
+	public String getAuthorName() {
+		return authorName;
 	}
 
 	public boolean isFresh() {

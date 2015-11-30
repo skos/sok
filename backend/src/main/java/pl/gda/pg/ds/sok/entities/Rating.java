@@ -9,7 +9,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "ratings")
+@Table(name = "ratingshistory", indexes = {
+		@Index(columnList = "date", name = "ratingshistory_date_idx")
+})
 public class Rating implements Serializable {
 
 	private static final long serialVersionUID = 5045398735786695881L;
@@ -61,6 +63,10 @@ public class Rating implements Serializable {
 
 	public Long getAnswerId() {
 		return answer.getId();
+	}
+
+	public String getAssessorName() {
+		return assessor.getName();
 	}
 
 	public void setRating(int rating) {

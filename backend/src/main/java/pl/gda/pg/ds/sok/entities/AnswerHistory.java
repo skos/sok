@@ -11,7 +11,9 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "answershistory")
+@Table(name = "answershistory", indexes = {
+		@Index(columnList = "answerdate", name = "answershistory_answerdate_idx")
+})
 public class AnswerHistory implements Serializable {
 
 	private static final long serialVersionUID = 4597203050079960763L;
