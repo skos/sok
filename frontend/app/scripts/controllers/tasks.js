@@ -34,8 +34,8 @@ angular.module('sokApp')
       }
     }
 
-    vm.user = resourceData[0];
-    vm.taskList = resourceData[1];
+    vm.user = resourceData.user;
+    vm.taskList = resourceData.taskList;
     vm.currentAnswer = null;
     vm.selected = vm.taskList[0];
     vm.oldSelected = null;

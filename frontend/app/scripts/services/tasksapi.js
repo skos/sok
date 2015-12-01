@@ -25,8 +25,17 @@ angular.module('sokApp')
           save: {method: 'PUT', interceptor: httpRegistrationHandler},
           get: {interceptor: httpGeneralHandler}
         }),
-        answer: $resource(apiAddress + '/answer/:taskId/:token', {}, {
+        answer: $resource(apiAddress + '/answer/:taskId/:token/:authToken', {}, {
           update: {method: 'POST', interceptor: httpAnswerHandler}
+        }),
+        about: $resource(apiAddress + '/about', {}, {
+          get: {interceptor: httpGeneralHandler}
+        }),
+        candidates: $resource(apiAddress + '/candidates/:authToken', {}, {
+          get: {interceptor: httpGeneralHandler}
+        }),
+        rating: $resource(apiAddress + '/rating/:taskId/:token/:authToken', {}, {
+          post: {interceptor: httpGeneralHandler}
         })
       };
     }]);

@@ -1,0 +1,31 @@
+<div class="container">
+    <h3>Panel administratora</h3>
+    <form role="form" name="admin.ratingForm">
+        <div class="form-group">
+            <span>Kandydat: </span>
+            <select class="form-control" ng-model="admin.selectedCandidate" name="candidateSelect"
+            ng-options="candidate as (candidate.name + ' (' + candidate.email + ')') for candidate in admin.candidates" ng-change="admin.loadAnswers()"></select>
+        </div>
+        <div class="form-group">
+            <span>Zadanie:</span>
+            <select class="form-control" ng-model="admin.selectedTask" name="taskSelect"
+            ng-options="task as ('[' + task.type + '] ' + task.title) group by ('Trudność: ' + task.difficulty) for task in admin.taskList | orderBy:['difficulty','type','title']" ng-change="admin.loadAnswers()"></select>
+        </div>
+        <div class="form-group">
+            <p id="taskContent" ng-bind-html="admin.selectedTask.content"></p>
+        </div>
+        <div class="form-group">
+            <textarea name="reviewComment" rows="5" placeholder="Miejsce na komentarz..." ng-model="admin.ratingForm.comment" class="form-control answer"></textarea>
+        </div>
+        <div class="form-group">
+        <button type="submit" class="btn btn-primary" ng-disabled="admin.ratingForm.$pristine && !admin.answers">Zapisz</button>
+        </div>
+    </form>
+
+    <uib-accordion ng-if="admin.answers">
+        <uib-accordion-group heading="Wersja {{admin.answers.length - $index}} ({{answerRevision.answerDate | date:'yyyy-MM-dd HH:mm:ss'}})" ng-repeat="answerRevision in admin.answers">
+        <pre>{{answerRevision.content}}</pre>
+        </uib-accordion-group>
+    </uib-accordion>
+<p class="alert bg-info text-info" ng-if="!admin.answers">Brak zarejestrowanych odpowiedzi.</p>
+</div>

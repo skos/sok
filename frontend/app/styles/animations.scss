@@ -1,0 +1,44 @@
+// Animacje CSS dla alertów
+.alert.ng-enter, .alert.ng-move,
+.registration-success.ng-enter, .registration.ng-move {
+  -webkit-transition:0.5s linear all;
+  -moz-transition:0.5s linear all;
+  -o-transition:0.5s linear all;
+  transition:0.5s linear all;
+  opacity:0;
+}
+
+.alert.ng-enter.ng-enter-active,
+.alert.ng-move.ng-move-active,
+.registration-success.ng-enter.ng-enter-active,
+.registration.ng-move.ng-move-active {
+  opacity:1;
+}
+
+
+.alert.ng-leave {
+  -webkit-animation:0.5s fade;
+  -moz-animation:0.5s fade;
+  -o-animation:0.5s fade;
+  animation:0.5s fade;
+}
+
+@keyframes fade {
+  from { opacity:1; }
+  to { opacity:0; }
+}
+
+@-webkit-keyframes fade {
+  from { opacity:1; }
+  to { opacity:0; }
+}
+
+@-moz-keyframes fade {
+  from { opacity:1; }
+  to { opacity:0; }
+}
+
+@-o-keyframes fade {
+  from { opacity:1; }
+  to { opacity:0; }
+}

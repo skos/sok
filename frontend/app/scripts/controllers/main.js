@@ -11,9 +11,8 @@
  .controller('MainCtrl',
   ['$location', '$scope',
   function ($location, $scope) {
-      var vm = this;
 
       $scope.$on("$routeChangeError", function () {
-        $location.path('error')
+        $location.path('error');
     });
   }]);
