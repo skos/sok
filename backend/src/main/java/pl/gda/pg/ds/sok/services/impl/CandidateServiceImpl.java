@@ -57,10 +57,10 @@ public class CandidateServiceImpl extends AbstractService implements CandidateSe
 			session.save(new Candidate(candidate.getName(), candidate.getEmail(), candidate.getToken(), NetworkUtil.getIpAddress(request)));
 			session.getTransaction().commit();
 
-			String mailBody = PropertiesUtil.getProperty("mail.body");
+			String mailBody = PropertiesUtil.getProperty("mail.register.body");
 			mailBody = mailBody.replace(MsgUtil.HOST_PLACEHOLDER, request.getServerName());
 			mailBody = mailBody.replace(MsgUtil.TOKEN_PLACEHOLDER, candidate.getToken());
-			MsgUtil.sendMail(candidate.getEmail(), candidate.getName(), PropertiesUtil.getProperty("mail.subject"), mailBody);
+			MsgUtil.sendMail(candidate.getEmail(), candidate.getName(), PropertiesUtil.getProperty("mail.register.subject"), mailBody);
 
 			return Response.status(Response.Status.CREATED).build();
 		} catch (ConstraintViolationException e) {

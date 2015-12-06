@@ -17,6 +17,7 @@ public class MsgUtil {
 	
 	public static final String TOKEN_PLACEHOLDER = "TOKEN_PLACEHOLDER";
 	public static final String HOST_PLACEHOLDER = "HOST_PLACEHOLDER";
+	public static final String ANSWER_PLACEHOLDER = "ANSWER_PLACEHOLDER";
 	
 	private static final Logger logger = Logger.getLogger(MsgUtil.class);
 

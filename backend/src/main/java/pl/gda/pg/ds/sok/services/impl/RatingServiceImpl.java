@@ -8,8 +8,11 @@ import pl.gda.pg.ds.sok.beans.RatingBean;
 import pl.gda.pg.ds.sok.entities.AnswerHistory;
 import pl.gda.pg.ds.sok.entities.Candidate;
 import pl.gda.pg.ds.sok.entities.Rating;
+import pl.gda.pg.ds.sok.entities.Task;
 import pl.gda.pg.ds.sok.services.RatingService;
+import pl.gda.pg.ds.sok.utils.MsgUtil;
 import pl.gda.pg.ds.sok.utils.NetworkUtil;
+import pl.gda.pg.ds.sok.utils.PropertiesUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -46,8 +49,18 @@ public class RatingServiceImpl extends AbstractService implements RatingService 
 
 			Query query = session.createQuery("from Candidate where token = :token");
 			query.setString("token", rating.getAuthToken());
+			List<Candidate> assesorsList = query.list();
+			Candidate assessor = assesorsList.get(0);
+
+			query = session.createQuery("from Candidate where token = :token");
+			query.setString("token", rating.getToken());
 			List<Candidate> candidateList = query.list();
-			Candidate assessor = candidateList.get(0);
+			Candidate candidate = candidateList.get(0);
+
+			query = session.createQuery("from Task where id = :id");
+			query.setLong("id", Long.parseLong(rating.getTaskId()));
+			List<Task> tasksList = query.list();
+			Task task = tasksList.get(0);
 
 			boolean update = false;
 			query = session.createQuery("from Rating where answer.id = :answer order by date desc");
@@ -63,6 +76,12 @@ public class RatingServiceImpl extends AbstractService implements RatingService 
 			}
 			session.save(new Rating(rating.getRating(), rating.getComment(), assessor, answer, NetworkUtil.getIpAddress(request)));
 			session.getTransaction().commit();
+
+			String mailBody = PropertiesUtil.getProperty("mail.rated.body");
+			mailBody = mailBody.replace(MsgUtil.ANSWER_PLACEHOLDER, task.getTitle());
+			mailBody = mailBody.replace(MsgUtil.HOST_PLACEHOLDER, request.getServerName());
+			mailBody = mailBody.replace(MsgUtil.TOKEN_PLACEHOLDER, candidate.getToken());
+			MsgUtil.sendMail(candidate.getEmail(), candidate.getName(), PropertiesUtil.getProperty("mail.rated.subject"), mailBody);
 
 			return Response.status(update ? Response.Status.ACCEPTED : Response.Status.CREATED).build();
 		} catch (ConstraintViolationException e) {
