@@ -108,7 +108,7 @@ public class RatingServiceImpl extends AbstractService implements RatingService 
 			}
 			AnswerHistory answer = resultList.get(0);
 
-			List<Rating> ratingList = getRatings(taskId, true);
+			List<Rating> ratingList = getRatings(taskId, token, true);
 			if (ratingList.size() == 0) {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
@@ -138,15 +138,15 @@ public class RatingServiceImpl extends AbstractService implements RatingService 
 			}
 			AnswerHistory answer = resultList.get(0);
 
-			List<Rating> ratingList = getRatings(taskId, false);
+			List<Rating> ratingList = getRatings(taskId, token, false);
 			if (ratingList.size() == 0) {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 
 			List<RatingBean> ratings = Lists.newArrayList();
 			for (Rating rating : ratingList) {
-				boolean isFresh = ratingList.get(0).getAnswerId().equals(answer.getId());
-				ratings.add(new RatingBean(ratingList.get(0).getRating(), ratingList.get(0).getComment(), ratingList.get(0).getAssessorName(), isFresh));
+				boolean isFresh = rating.getAnswerId().equals(answer.getId());
+				ratings.add(new RatingBean(rating.getRating(), rating.getComment(), rating.getAssessorName(), isFresh));
 			}
 
 			return Response.ok(ratings).build();
@@ -167,9 +167,10 @@ public class RatingServiceImpl extends AbstractService implements RatingService 
 		return query.list();
 	}
 
-	private List<Rating> getRatings(String taskId, boolean lastOnly) {
-		Query query = session.createQuery("from Rating where answer.task.id = :task order by date desc");
+	private List<Rating> getRatings(String taskId, String token, boolean lastOnly) {
+		Query query = session.createQuery("from Rating where answer.task.id = :task and answer.candidate.token = :token order by date desc");
 		query.setLong("task", Long.parseLong(taskId));
+		query.setString("token", token);
 		if (lastOnly) {
 			query.setMaxResults(1);
 		}
