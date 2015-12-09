@@ -1,6 +1,6 @@
 <div class="container">
     <h3>Panel administratora</h3>
-    <form role="form" name="admin.ratingForm">
+    <form role="form" name="admin.ratingForm" ng-submit="admin.saveRating()">
         <div class="form-group">
             <span>Kandydat: </span>
             <select class="form-control" ng-model="admin.selectedCandidate" name="candidateSelect"
@@ -14,18 +14,41 @@
         <div class="form-group">
             <p id="taskContent" ng-bind-html="admin.selectedTask.content"></p>
         </div>
-        <div class="form-group">
-            <textarea name="reviewComment" rows="5" placeholder="Miejsce na komentarz..." ng-model="admin.ratingForm.comment" class="form-control answer"></textarea>
+        <uib-accordion ng-if="admin.answers" 
+        close-others="false">
+            <uib-accordion-group heading="Odpowiedź {{admin.answers.length - $index}} ({{answerRevision.answerDate | date:'yyyy-MM-dd HH:mm:ss'}})"
+            ng-repeat="answerRevision in admin.answers"
+            is-open="$first">
+                <pre>{{answerRevision.content}}</pre>
+            </uib-accordion-group>
+        </uib-accordion>
+        <p class="alert bg-info text-info" ng-if="!admin.answers">Brak zarejestrowanych odpowiedzi.</p>
+        <div ng-if="admin.ratingHistory">
+        <p class="bg-info text-info" >
+            <h4>Ostatnia ocena: {{ admin.ratingHistory[0].fresh ? '' : '(nieaktualna)' }}</h4>
+            <ul class="list-unstyled">
+            <li>Autor: {{ admin.ratingHistory[0].authorName }}</li>
+            <li>Ocena: 
+            <uib-rating  max="5" readonly="true"
+            ng-model="admin.ratingHistory[0].rating">
+            </uib-rating> </li>
+            </ul>
+            {{admin.ratingHistory[0].comment}}
+        </p>
         </div>
-        <div class="form-group">
-        <button type="submit" class="btn btn-primary" ng-disabled="admin.ratingForm.$pristine && !admin.answers">Zapisz</button>
+        <div class="form-group" ng-if="admin.answers">
+            <textarea name="reviewComment" rows="5" placeholder="Miejsce na komentarz..." 
+            ng-model="admin.ratingForm.comment" 
+            class="form-control answer"></textarea>
+        </div>
+        <div class="form-group" ng-if="admin.answers">
+            <span  class="pull-left">
+            Twoja ocena: <uib-rating  max="5"
+            ng-model="admin.ratingForm.rating">
+            </uib-rating></span>
+            <button type="submit" 
+            class="btn btn-primary pull-right" 
+            ng-disabled="admin.ratingForm.$pristine">Zapisz</button>
         </div>
     </form>
-
-    <uib-accordion ng-if="admin.answers">
-        <uib-accordion-group heading="Wersja {{admin.answers.length - $index}} ({{answerRevision.answerDate | date:'yyyy-MM-dd HH:mm:ss'}})" ng-repeat="answerRevision in admin.answers">
-        <pre>{{answerRevision.content}}</pre>
-        </uib-accordion-group>
-    </uib-accordion>
-<p class="alert bg-info text-info" ng-if="!admin.answers">Brak zarejestrowanych odpowiedzi.</p>
 </div>

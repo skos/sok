@@ -35,7 +35,11 @@ angular.module('sokApp')
           get: {interceptor: httpGeneralHandler}
         }),
         rating: $resource(apiAddress + '/rating/:taskId/:token/:authToken', {}, {
-          post: {interceptor: httpGeneralHandler}
+          save: {
+            interceptor: httpGeneralHandler,
+            isArray: true,
+            method: 'POST'
+          }
         })
       };
     }]);
