@@ -101,47 +101,61 @@ public class RatingServiceImpl extends AbstractService implements RatingService 
 	@Path("/{taskId}/{token}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getRating(@PathParam("taskId") String taskId, @PathParam("token") String token) {
-		List<AnswerHistory> resultList = getLastAnswer(taskId, token);
-		if (resultList.size() == 0) {
-			return Response.status(Response.Status.NOT_FOUND).build();
-		}
-		AnswerHistory answer = resultList.get(0);
+		try {
+			List<AnswerHistory> resultList = getLastAnswer(taskId, token);
+			if (resultList.size() == 0) {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+			AnswerHistory answer = resultList.get(0);
 
-		List<Rating> ratingList = getRatings(taskId, true);
-		if (ratingList.size() == 0) {
-			return Response.status(Response.Status.NOT_FOUND).build();
+			List<Rating> ratingList = getRatings(taskId, true);
+			if (ratingList.size() == 0) {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+			boolean isFresh = ratingList.get(0).getAnswerId().equals(answer.getId());
+			RatingBean rating = new RatingBean(ratingList.get(0).getRating(), ratingList.get(0).getComment(), null, isFresh);
+			return Response.ok(rating).build();
+		} catch (Exception e) {
+			logger.error(e);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		} finally {
+			session.close();
 		}
-		boolean isFresh = ratingList.get(0).getAnswerId().equals(answer.getId());
-		RatingBean rating = new RatingBean(ratingList.get(0).getRating(), ratingList.get(0).getComment(), null, isFresh);
-		return Response.ok(rating).build();
 	}
 
 	@GET
 	@Path("/{taskId}/{token}/{authToken}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getRatingForAdmin(@PathParam("taskId") String taskId, @PathParam("token") String token, @PathParam("authToken") String authToken) {
-		if (!canAdmin(authToken)) {
-			return Response.status(Response.Status.UNAUTHORIZED).build();
-		}
+		try {
+			if (!canAdmin(authToken)) {
+				return Response.status(Response.Status.UNAUTHORIZED).build();
+			}
 
-		List<AnswerHistory> resultList = getLastAnswer(taskId, token);
-		if (resultList.size() == 0) {
-			return Response.status(Response.Status.NOT_FOUND).build();
-		}
-		AnswerHistory answer = resultList.get(0);
+			List<AnswerHistory> resultList = getLastAnswer(taskId, token);
+			if (resultList.size() == 0) {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+			AnswerHistory answer = resultList.get(0);
 
-		List<Rating> ratingList = getRatings(taskId, false);
-		if (ratingList.size() == 0) {
-			return Response.status(Response.Status.NOT_FOUND).build();
-		}
+			List<Rating> ratingList = getRatings(taskId, false);
+			if (ratingList.size() == 0) {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
 
-		List<RatingBean> ratings = Lists.newArrayList();
-		for (Rating rating : ratingList) {
-			boolean isFresh = ratingList.get(0).getAnswerId().equals(answer.getId());
-			ratings.add(new RatingBean(ratingList.get(0).getRating(), ratingList.get(0).getComment(), ratingList.get(0).getAssessorName(), isFresh));
-		}
+			List<RatingBean> ratings = Lists.newArrayList();
+			for (Rating rating : ratingList) {
+				boolean isFresh = ratingList.get(0).getAnswerId().equals(answer.getId());
+				ratings.add(new RatingBean(ratingList.get(0).getRating(), ratingList.get(0).getComment(), ratingList.get(0).getAssessorName(), isFresh));
+			}
 
-		return Response.ok(ratings).build();
+			return Response.ok(ratings).build();
+		} catch (Exception e) {
+			logger.error(e);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		} finally {
+			session.close();
+		}
 	}
 
 	private List<AnswerHistory> getLastAnswer(String taskId, String token) {
