@@ -4,7 +4,7 @@
         <div class="form-group">
             <span>Kandydat: </span>
             <select class="form-control" ng-model="admin.selectedCandidate" name="candidateSelect"
-            ng-options="candidate as (candidate.name + ' (' + candidate.email + ')') for candidate in admin.candidates" ng-change="admin.loadAnswers()"></select>
+            ng-options="candidate as (candidate.name + ' (' + candidate.email + ')') for candidate in admin.candidates | filter:{email:'!ds.pg.gda.pl'} | orderBy:'name'" ng-change="admin.loadAnswers()"></select>
         </div>
         <div class="form-group">
             <span>Zadanie:</span>
