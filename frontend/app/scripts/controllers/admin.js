@@ -37,7 +37,6 @@
     }
 
     function loadRating() {
-      console.log('loadRating...')
       return SokApi.rating.query({
         taskId:     vm.selectedTask.id, 
         token:      vm.selectedCandidate.token,
@@ -45,14 +44,20 @@
       }).$promise
       .then( function(data) {
         vm.ratingHistory = data;
+        vm.latestRating = vm.ratingHistory[0];
       },
       function() {
         vm.ratingHistory = false;
       });
     }
 
+    function resetForm() {
+      vm.ratingForm.comment = "";
+      vm.ratingForm.rating = 0;
+      vm.ratingForm.$setPristine();
+    }
+
     function saveRating() {
-      console.log('saveRating...');
       SokApi.rating.save({
         taskId:       vm.selectedTask.id,
         token:        vm.selectedCandidate.token,
@@ -60,7 +65,12 @@
         comment:      vm.ratingForm.comment,
         rating:       vm.ratingForm.rating
       }).$promise
-      .then (loadRating());
+      .then ( function() {
+        loadRating()
+        .then(resetForm())
+      }
+
+        );
     }
 
     vm.user = resourceData.user;
