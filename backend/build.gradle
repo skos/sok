@@ -45,9 +45,19 @@ task dev() << {
   }
 }
 
+task speedy() << {
+  processResources {
+    filesMatching('hibernate.cfg.xml') {
+      filter { line -> line.contains('hbm2ddl.auto') ? '' : line }
+      filter { line -> line.contains('temp.use_jdbc_metadata_defaults') ? '<property name="temp.use_jdbc_metadata_defaults">false</property>' : line }
+    }
+  }
+}
+
 processResources.dependsOn prepareResources
 prepareResources.shouldRunAfter prod
 prepareResources.shouldRunAfter dev
+prepareResources.shouldRunAfter speedy
 
 repositories {
   mavenCentral()

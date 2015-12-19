@@ -27,6 +27,7 @@
 		
 		<!-- should generate schema? -->
 		<property name="hbm2ddl.auto">update</property>
+		<property name="temp.use_jdbc_metadata_defaults">true</property>
 
 		<mapping class="pl.gda.pg.ds.sok.entities.Candidate" />
         <mapping class="pl.gda.pg.ds.sok.entities.AnswerHistory" />
