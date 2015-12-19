@@ -33,11 +33,12 @@ public class AboutServiceImpl implements AboutService {
 		about.put("version", PropertiesUtil.getProperty("app.version"));
 
 		Properties properties = new Properties();
-		properties.setProperty("mail.smtp.host", PropertiesUtil.getProperty("mail.server"));
+		properties.setProperty("mail.smtp.host", "10.0.0.69");
 		properties.put("mail.debug", "true");
 		Session session = Session.getDefaultInstance(properties);
 
 		logger.error(properties.getProperty("mail.smtp.host"));
+		logger.error(properties.getProperty("mail.smtp.port"));
 
 		MimeMessage msg = new MimeMessage(session);
 
