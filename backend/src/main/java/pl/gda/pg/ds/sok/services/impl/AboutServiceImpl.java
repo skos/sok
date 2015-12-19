@@ -37,7 +37,7 @@ public class AboutServiceImpl implements AboutService {
 		properties.setProperty("mail.smtp.port", "25");
 		properties.put("mail.smtp.auth", "false");
 		properties.put("mail.debug", "true");
-		Session session = Session.getDefaultInstance(properties);
+		Session session = Session.getInstance(properties);
 
 		logger.error(properties.getProperty("mail.smtp.host"));
 		logger.error(properties.getProperty("mail.smtp.port"));
