@@ -19,7 +19,7 @@
             <uib-accordion-group heading="Odpowiedź {{admin.answers.length - $index}} ({{answerRevision.answerDate | date:'yyyy-MM-dd HH:mm:ss'}})"
             ng-repeat="answerRevision in admin.answers"
             is-open="$first">
-                <pre>{{answerRevision.content}}</pre>
+                <pre class="word-wrap">{{answerRevision.content}}</pre>
             </uib-accordion-group>
         </uib-accordion>
         <p class="alert bg-info text-info" ng-if="!admin.answers">Brak zarejestrowanych odpowiedzi.</p>
