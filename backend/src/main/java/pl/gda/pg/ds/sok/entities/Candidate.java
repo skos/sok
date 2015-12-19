@@ -77,4 +77,8 @@ public class Candidate implements Serializable  {
 	public String getToken() {
 		return token;
 	}
+
+	public int getAnswersNo() {
+		return answers.size();
+	}
 }

@@ -10,6 +10,7 @@
 		<property name="connection.password">sok_pass</property>
 		<property name="connection.driver_class">org.postgresql.Driver</property>
 		<property name="dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
+		<property name="enable_lazy_load_no_trans">true</property>
 
 		<!-- c3p0 settings -->
         <property name="connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
