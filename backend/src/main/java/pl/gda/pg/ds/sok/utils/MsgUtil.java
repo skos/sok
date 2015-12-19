@@ -26,7 +26,7 @@ public class MsgUtil {
 		try {
 			Properties properties = new Properties();
 			properties.setProperty("mail.smtp.host", PropertiesUtil.getProperty("mail.server"));
-			Session session = Session.getDefaultInstance(properties);
+			Session session = Session.getInstance(properties);
 			
 			MimeMessage msg = new MimeMessage(session);
 			msg.setFrom(new InternetAddress(PropertiesUtil.getProperty("mail.addressFrom"), PropertiesUtil.getProperty("mail.from")));
