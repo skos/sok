@@ -39,6 +39,9 @@ angular.module('sokApp')
             interceptor: httpGeneralHandler,
             isArray: true,
             method: 'POST'
+          },
+          get: {
+            method: 'GET'
           }
         })
       };

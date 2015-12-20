@@ -1,7 +1,5 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 
-@import "animations.scss";
-
 $body-bg: #0c6ba1;
 $white: #fff;
 $brand-primary: #0c6ba1;
@@ -29,6 +27,9 @@ $navbar-default-brand-hover-color:         $navbar-default-link-color;
 $jumbotron-bg: $white;
 
 $footer-height: 100px;
+
+@import "animations.scss";
+@import "loadingbar.scss";
 
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
