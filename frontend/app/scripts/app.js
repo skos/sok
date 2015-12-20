@@ -16,8 +16,12 @@
   'ngRoute',
   'ngSanitize',
   'ngTouch',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'angular-loading-bar'
   ])
+ .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeBar = false;
+  }])
  .config([
   '$routeProvider',
   function ($routeProvider) {
