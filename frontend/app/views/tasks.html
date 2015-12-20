@@ -19,7 +19,7 @@
 		<div class="form-group">
 			<select class="form-control" ng-model="tasks.selected" name="taskSelect"
 			ng-options="task as ('[' + task.type + '] ' + task.title) group by ('Trudność: ' + task.difficulty) for task in tasks.taskList | orderBy:['difficulty','type','title']"
-			ng-change="tasks.changeTask($index)" id="taskSelect"></select>
+			ng-change="tasks.confirmChange($index)" id="taskSelect"></select>
 		</div>
 		<div class="form-group">
 			<p id="taskContent" ng-bind-html="tasks.selected.content"></p>
@@ -29,18 +29,5 @@
 		<div class="form-group">
 			<button type="submit" class="btn btn-primary pull-right" ng-disabled="tasks.answerForm.$pristine">Zapisz</button>
 		</div>
-		<div class="clearfix"></div>
 	</form>
-	<div ng-if="tasks.latestRating != null" class="clearfix">
-		<p class="bg-info text-info" >
-            <h4>Nasza ocena odpowiedzi: {{ tasks.latestRating.fresh ? '' : '(dla poprzedniej wersji)' }}</h4>
-            <ul class="list-unstyled">
-            <li>Ocena: 
-            <uib-rating  max="5" readonly="true"
-            ng-model="tasks.latestRating.rating">
-            </uib-rating> </li>
-            </ul>
-            {{tasks.latestRating.comment}}
-        </p>
-	</div>
 </div>
