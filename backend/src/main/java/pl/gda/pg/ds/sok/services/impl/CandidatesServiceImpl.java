@@ -56,7 +56,7 @@ public class CandidatesServiceImpl extends AbstractService implements Candidates
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response sendEmailToCandidatesByAnswersCount(@Context HttpServletRequest request, MailBean mail) {
 		try {
-			Query query = session.createQuery("from Candidate where answers.size > :answersCount");
+			Query query = session.createQuery("from Candidate where answers.size >= :answersCount");
 			query.setInteger("answersCount", Integer.parseInt(mail.getAnswers()));
 			List<Candidate> resultList = query.list();
 
