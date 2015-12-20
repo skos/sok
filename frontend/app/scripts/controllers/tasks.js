@@ -17,6 +17,7 @@ angular.module('sokApp')
       SokApi.answer.update({content: vm.currentAnswer.content, token: vm.user.token, taskId: vm.selected.id}).$promise
       .then(function() {
         vm.answerForm.$setPristine();
+        getRating(vm.selected.id);
       });
     }
 

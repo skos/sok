@@ -31,16 +31,19 @@
 		</div>
 		<div class="clearfix"></div>
 	</form>
+	<hr>
 	<div ng-if="tasks.latestRating != null" class="clearfix">
 		<p class="bg-info text-info" >
-            <h4>Nasza ocena odpowiedzi: {{ tasks.latestRating.fresh ? '' : '(dla poprzedniej wersji)' }}</h4>
+            <h4>Nasza ocena {{ tasks.latestRating.fresh ? '' : 'poprzedniej wersji ' }}odpowiedzi: </h4>
             <ul class="list-unstyled">
             <li>Ocena: 
-            <uib-rating  max="5" readonly="true"
-            ng-model="tasks.latestRating.rating">
+            <uib-rating  max="5" readonly="true" ng-model="tasks.latestRating.rating">
             </uib-rating> </li>
             </ul>
             {{tasks.latestRating.comment}}
         </p>
+	</div>
+	<div ng-if="tasks.latestRating == null">
+		<p class="alert bg-info text-info">Nie oceniliśmy jeszcze tego zadania.</p>
 	</div>
 </div>
