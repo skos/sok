@@ -68,9 +68,9 @@ public class CandidatesServiceImpl extends AbstractService implements Candidates
 			}
 			query = session.createQuery(queryString.toString());
 
-			if("-1".equals(mail.getMinAnswers())) {
+			if(("-1").equals(mail.getMinAnswers())) {
 				query.setInteger("maxAnswers", Integer.parseInt(mail.getMaxAnswers()));
-			} else if("-1".equals(mail.getMaxAnswers())) {
+			} else if(("-1").equals(mail.getMaxAnswers())) {
 				query.setInteger("minAnswers", Integer.parseInt(mail.getMinAnswers()));
 			} else {
 				query.setInteger("maxAnswers", Integer.parseInt(mail.getMaxAnswers()));
