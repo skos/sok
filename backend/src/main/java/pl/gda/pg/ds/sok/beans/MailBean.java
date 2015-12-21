@@ -4,7 +4,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MailBean {
-    private String answers;
+    private String minAnswers;
+    private String maxAnswers;
     private String subject;
     private String content;
 
@@ -16,19 +17,27 @@ public class MailBean {
         this.subject = subject;
     }
 
-    public String getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(String answers) {
-        this.answers = answers;
-    }
-
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getMinAnswers() {
+        return minAnswers;
+    }
+
+    public void setMinAnswers(String minAnswers) {
+        this.minAnswers = minAnswers;
+    }
+
+    public String getMaxAnswers() {
+        return maxAnswers;
+    }
+
+    public void setMaxAnswers(String maxAnswers) {
+        this.maxAnswers = maxAnswers;
     }
 }

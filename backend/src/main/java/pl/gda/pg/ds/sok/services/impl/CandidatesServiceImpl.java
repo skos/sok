@@ -56,13 +56,32 @@ public class CandidatesServiceImpl extends AbstractService implements Candidates
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response sendEmailToCandidatesByAnswersCount(@Context HttpServletRequest request, MailBean mail) {
 		try {
-			Query query = session.createQuery("from Candidate where answers.size >= :answersCount");
-			query.setInteger("answersCount", Integer.parseInt(mail.getAnswers()));
-			List<Candidate> resultList = query.list();
+			Query query;
+			StringBuilder queryString = new StringBuilder("from Candidate where ");
 
+			if(mail.getMinAnswers().equals("-1")) {
+				queryString.append("answers.size <= :maxAnswers ");
+			} else if(mail.getMaxAnswers().equals("-1")) {
+				queryString.append("answers.size >= :minAnswers ");
+			} else {
+				queryString.append("answers.size <= :maxAnswers and answers.size >= :minAnswers ");
+			}
+			query = session.createQuery(queryString.toString());
+
+			if(mail.getMinAnswers().equals("-1")) {
+				query.setInteger("maxAnswers", Integer.parseInt(mail.getMaxAnswers()));
+			} else if(mail.getMaxAnswers().equals("-1")) {
+				query.setInteger("minAnswers", Integer.parseInt(mail.getMinAnswers()));
+			} else {
+				query.setInteger("maxAnswers", Integer.parseInt(mail.getMaxAnswers()));
+				query.setInteger("minAnswers", Integer.parseInt(mail.getMinAnswers()));
+			}
+
+			List<Candidate> resultList = query.list();
 			if (resultList.size() > 0) {
 				for(Candidate candidate : resultList) {
 					MsgUtil.sendMail(candidate.getEmail(), candidate.getName(), mail.getSubject(), mail.getContent());
+					candidate.getEmail();
 				}
 				return Response.status(Response.Status.OK).build();
 			} else {
