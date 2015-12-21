@@ -59,18 +59,18 @@ public class CandidatesServiceImpl extends AbstractService implements Candidates
 			Query query;
 			StringBuilder queryString = new StringBuilder("from Candidate where ");
 
-			if(mail.getMinAnswers().equals("-1")) {
+			if(("-1").equals(mail.getMinAnswers())) {
 				queryString.append("answers.size <= :maxAnswers ");
-			} else if(mail.getMaxAnswers().equals("-1")) {
+			} else if(("-1").equals(mail.getMaxAnswers())) {
 				queryString.append("answers.size >= :minAnswers ");
 			} else {
 				queryString.append("answers.size <= :maxAnswers and answers.size >= :minAnswers ");
 			}
 			query = session.createQuery(queryString.toString());
 
-			if(mail.getMinAnswers().equals("-1")) {
+			if("-1".equals(mail.getMinAnswers())) {
 				query.setInteger("maxAnswers", Integer.parseInt(mail.getMaxAnswers()));
-			} else if(mail.getMaxAnswers().equals("-1")) {
+			} else if("-1".equals(mail.getMaxAnswers())) {
 				query.setInteger("minAnswers", Integer.parseInt(mail.getMinAnswers()));
 			} else {
 				query.setInteger("maxAnswers", Integer.parseInt(mail.getMaxAnswers()));
@@ -81,7 +81,6 @@ public class CandidatesServiceImpl extends AbstractService implements Candidates
 			if (resultList.size() > 0) {
 				for(Candidate candidate : resultList) {
 					MsgUtil.sendMail(candidate.getEmail(), candidate.getName(), mail.getSubject(), mail.getContent());
-					candidate.getEmail();
 				}
 				return Response.status(Response.Status.OK).build();
 			} else {
