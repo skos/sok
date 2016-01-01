@@ -1,17 +1,12 @@
 package pl.gda.pg.ds.sok.services.impl;
 
+import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
-import org.hibernate.Session;
-import pl.gda.pg.ds.sok.beans.CandidateBean;
 import pl.gda.pg.ds.sok.beans.MailBean;
 import pl.gda.pg.ds.sok.entities.Candidate;
-import pl.gda.pg.ds.sok.entities.Task;
 import pl.gda.pg.ds.sok.services.CandidatesService;
-import pl.gda.pg.ds.sok.services.TasksService;
-import pl.gda.pg.ds.sok.utils.DbUtil;
 import pl.gda.pg.ds.sok.utils.MsgUtil;
-import pl.gda.pg.ds.sok.utils.PropertiesUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -21,6 +16,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/candidates")
+@Api(description = "List candidates")
 public class CandidatesServiceImpl extends AbstractService implements CandidatesService {
 	
 	private static final Logger logger = Logger.getLogger(CandidatesServiceImpl.class);

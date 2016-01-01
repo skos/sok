@@ -1,13 +1,12 @@
 package pl.gda.pg.ds.sok.services.impl;
 
+import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 import pl.gda.pg.ds.sok.beans.CandidateBean;
 import pl.gda.pg.ds.sok.entities.Candidate;
 import pl.gda.pg.ds.sok.services.CandidateService;
-import pl.gda.pg.ds.sok.utils.DbUtil;
 import pl.gda.pg.ds.sok.utils.MsgUtil;
 import pl.gda.pg.ds.sok.utils.NetworkUtil;
 import pl.gda.pg.ds.sok.utils.PropertiesUtil;
@@ -20,6 +19,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/user")
+@Api(description = "Get and crerate Candidate")
 public class CandidateServiceImpl extends AbstractService implements CandidateService {
 	
 	private static final Logger logger = Logger.getLogger(CandidateServiceImpl.class);

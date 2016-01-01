@@ -12,6 +12,7 @@ public abstract class AbstractService {
 
     Session session = DbUtil.getSession();
 
+    @SuppressWarnings("unchecked")
     protected boolean canAdmin(String token) {
         Query query = session.createQuery("from Candidate where token = :token");
         query.setString("token", token);

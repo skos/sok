@@ -1,6 +1,7 @@
 package pl.gda.pg.ds.sok.services.impl;
 
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.exception.ConstraintViolationException;
@@ -22,6 +23,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/rating")
+@Api(description = "Manage ratings")
 public class RatingServiceImpl extends AbstractService implements RatingService {
 	
 	private static final Logger logger = Logger.getLogger(RatingServiceImpl.class);
@@ -30,6 +32,7 @@ public class RatingServiceImpl extends AbstractService implements RatingService 
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@SuppressWarnings("unchecked")
 	public Response setRating(@Context HttpServletRequest request, RatingBean rating) {
 		try {
 			session.beginTransaction();
@@ -158,6 +161,7 @@ public class RatingServiceImpl extends AbstractService implements RatingService 
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<AnswerHistory> getLastAnswer(String taskId, String token) {
 		Query query = session.createQuery("from AnswerHistory a where a.task.id = :taskId and a.candidate.token = :token order by answerDate desc");
 		query.setLong("taskId", Long.parseLong(taskId));
@@ -167,6 +171,7 @@ public class RatingServiceImpl extends AbstractService implements RatingService 
 		return query.list();
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<Rating> getRatings(String taskId, String token, boolean lastOnly) {
 		Query query = session.createQuery("from Rating where answer.task.id = :task and answer.candidate.token = :token order by date desc");
 		query.setLong("task", Long.parseLong(taskId));

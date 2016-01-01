@@ -54,6 +54,12 @@ task speedy() << {
   }
 }
 
+def getDate() {
+  def date = new Date()
+  def formattedDate = date.format('yyyyMMddHHmmss')
+  return formattedDate
+}
+
 processResources.dependsOn prepareResources
 prepareResources.shouldRunAfter prod
 prepareResources.shouldRunAfter dev
@@ -80,12 +86,8 @@ dependencies {
   compile 'org.mockito:mockito-all:1.9.5'
   compile 'javax.el:javax.el-api:3.0.0'
   compile 'com.google.guava:guava:12.0'
+  compile 'io.swagger:swagger-jersey-jaxrs:1.5.0'
+  compile 'ch.qos.logback:logback-classic:1.0.13'
 
   testCompile 'junit:junit:4.4'
-}
-
-def getDate() {
-  def date = new Date()
-  def formattedDate = date.format('yyyyMMddHHmmss')
-  return formattedDate
 }

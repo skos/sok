@@ -1,5 +1,6 @@
 package pl.gda.pg.ds.sok.services.impl;
 
+import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.exception.ConstraintViolationException;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/answer")
+@Api(description = "Answers")
 public class AnswerServiceImpl extends AbstractService implements AnswerService {
 
     private static final Logger logger = Logger.getLogger(AnswerServiceImpl.class);

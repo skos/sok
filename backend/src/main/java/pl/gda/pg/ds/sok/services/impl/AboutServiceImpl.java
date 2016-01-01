@@ -1,7 +1,8 @@
 package pl.gda.pg.ds.sok.services.impl;
 
 import com.google.common.collect.Maps;
-import org.apache.log4j.Logger;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import pl.gda.pg.ds.sok.services.AboutService;
 import pl.gda.pg.ds.sok.utils.PropertiesUtil;
 
@@ -13,9 +14,8 @@ import javax.ws.rs.core.Response;
 import java.util.Map;
 
 @Path("/about")
+@Api(description = "Get info about SOK build")
 public class AboutServiceImpl implements AboutService {
-
-	private static final Logger logger = Logger.getLogger(AboutServiceImpl.class);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

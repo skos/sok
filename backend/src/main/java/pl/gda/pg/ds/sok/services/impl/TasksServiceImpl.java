@@ -1,22 +1,20 @@
 package pl.gda.pg.ds.sok.services.impl;
 
-import java.util.List;
+import io.swagger.annotations.Api;
+import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import pl.gda.pg.ds.sok.entities.Task;
+import pl.gda.pg.ds.sok.services.TasksService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Query;
-import org.hibernate.Session;
-
-import pl.gda.pg.ds.sok.entities.Task;
-import pl.gda.pg.ds.sok.services.TasksService;
-import pl.gda.pg.ds.sok.utils.DbUtil;
+import java.util.List;
 
 @Path("/tasks")
+@Api(description = "List Tasks")
 public class TasksServiceImpl extends AbstractService implements TasksService {
 	
 	private static final Logger logger = Logger.getLogger(TasksServiceImpl.class);
