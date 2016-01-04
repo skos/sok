@@ -37,6 +37,13 @@ public class Task implements Serializable  {
 	
 	public Task() {
 	}
+
+	public Task(String title, String type, String content, Integer difficulty) {
+		this.title = title;
+		this.type = type;
+		this.content = content;
+		this.difficulty = difficulty;
+	}
 	
 	public Task(Long id) {
 		this.id = id;
