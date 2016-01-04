@@ -13,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.NumberFormat;
 import java.util.List;
 
 @Path("/candidates")
@@ -48,29 +49,47 @@ public class CandidatesServiceImpl extends AbstractService implements Candidates
 	}
 
 	@PUT
-	@Path("/mail")
+	@Path("/{authToken}/mail")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response sendEmailToCandidatesByAnswersCount(@Context HttpServletRequest request, MailBean mail) {
+	public Response sendEmailToCandidatesByAnswersCount(@Context HttpServletRequest request, @PathParam("authToken") String authToken, MailBean mail) {
 		try {
+			if (!canAdmin(authToken)) {
+				return Response.status(Response.Status.UNAUTHORIZED).build();
+			}
+
+			Integer minAnswers;
+			Integer maxAnswers;
+
+			try {
+				minAnswers = Integer.parseInt(mail.getMinAnswers());
+				maxAnswers = Integer.parseInt(mail.getMaxAnswers());
+			} catch(Exception e) {
+				return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+			}
+
+			if(minAnswers < -1 || maxAnswers < -1) {
+				return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+			}
+
 			Query query;
 			StringBuilder queryString = new StringBuilder("from Candidate where ");
 
-			if(("-1").equals(mail.getMinAnswers())) {
+			if(minAnswers == -1) {
 				queryString.append("answers.size <= :maxAnswers ");
-			} else if(("-1").equals(mail.getMaxAnswers())) {
+			} else if(maxAnswers == -1) {
 				queryString.append("answers.size >= :minAnswers ");
 			} else {
 				queryString.append("answers.size <= :maxAnswers and answers.size >= :minAnswers ");
 			}
 			query = session.createQuery(queryString.toString());
 
-			if(("-1").equals(mail.getMinAnswers())) {
-				query.setInteger("maxAnswers", Integer.parseInt(mail.getMaxAnswers()));
-			} else if(("-1").equals(mail.getMaxAnswers())) {
-				query.setInteger("minAnswers", Integer.parseInt(mail.getMinAnswers()));
+			if(minAnswers == -1) {
+				query.setInteger("maxAnswers", maxAnswers);
+			} else if(maxAnswers == -1) {
+				query.setInteger("minAnswers", minAnswers);
 			} else {
-				query.setInteger("maxAnswers", Integer.parseInt(mail.getMaxAnswers()));
-				query.setInteger("minAnswers", Integer.parseInt(mail.getMinAnswers()));
+				query.setInteger("maxAnswers", maxAnswers);
+				query.setInteger("minAnswers", minAnswers);
 			}
 
 			List<Candidate> resultList = query.list();
