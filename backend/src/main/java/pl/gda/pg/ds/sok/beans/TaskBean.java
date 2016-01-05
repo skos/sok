@@ -1,6 +1,7 @@
 package pl.gda.pg.ds.sok.beans;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import pl.gda.pg.ds.sok.entities.Candidate;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskBean {
@@ -9,6 +10,7 @@ public class TaskBean {
     private String type;
     private String content;
     private Integer difficulty;
+    private Candidate candidate;
 
     public TaskBean() {}
 
@@ -42,5 +44,13 @@ public class TaskBean {
 
     public void setDifficulty(Integer difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public Candidate getCandidate() {
+        return candidate;
+    }
+
+    public void setCandidate(Candidate candidate) {
+        this.candidate = candidate;
     }
 }

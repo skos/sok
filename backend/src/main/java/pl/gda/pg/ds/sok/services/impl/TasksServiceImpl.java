@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.exception.ConstraintViolationException;
 import pl.gda.pg.ds.sok.beans.TaskBean;
+import pl.gda.pg.ds.sok.entities.Candidate;
 import pl.gda.pg.ds.sok.entities.Task;
 import pl.gda.pg.ds.sok.services.TasksService;
 import pl.gda.pg.ds.sok.utils.MsgUtil;
@@ -51,8 +52,16 @@ public class TasksServiceImpl extends AbstractService implements TasksService {
 			if (!canAdmin(authToken)) {
 				return Response.status(Response.Status.UNAUTHORIZED).build();
 			}
+
 			session.beginTransaction();
-			session.save(new Task(task.getTitle(), task.getType(), task.getContent(), task.getDifficulty()));
+
+			Query query;
+			StringBuilder queryString = new StringBuilder("from Candidate where token = :token");
+			query = session.createQuery(queryString.toString());
+			query.setParameter("token", authToken);
+			List<Candidate> resultList = query.list();
+
+			session.save(new Task(task.getTitle(), task.getType(), task.getContent(), task.getDifficulty(), resultList.get(0)));
 			session.getTransaction().commit();
 			return Response.status(Response.Status.CREATED).build();
 		} catch (ConstraintViolationException e) {

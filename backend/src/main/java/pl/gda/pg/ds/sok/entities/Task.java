@@ -34,15 +34,18 @@ public class Task implements Serializable  {
     private Integer difficulty;
 	@OneToMany(mappedBy="task",cascade=CascadeType.PERSIST)
     private List<AnswerHistory> answers = new ArrayList<>();
+	@ManyToOne
+	private Candidate candidate;
 	
 	public Task() {
 	}
 
-	public Task(String title, String type, String content, Integer difficulty) {
+	public Task(String title, String type, String content, Integer difficulty, Candidate candidate) {
 		this.title = title;
 		this.type = type;
 		this.content = content;
 		this.difficulty = difficulty;
+		this.candidate = candidate;
 	}
 	
 	public Task(Long id) {
@@ -68,4 +71,12 @@ public class Task implements Serializable  {
     public Integer getDifficulty() {
         return difficulty;
     }
+
+	public Candidate getCandidate() {
+		return candidate;
+	}
+
+	public void setCandidate(Candidate candidate) {
+		this.candidate = candidate;
+	}
 }
