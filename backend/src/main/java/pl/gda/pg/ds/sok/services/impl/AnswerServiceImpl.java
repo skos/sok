@@ -9,7 +9,9 @@ import pl.gda.pg.ds.sok.entities.AnswerHistory;
 import pl.gda.pg.ds.sok.entities.Candidate;
 import pl.gda.pg.ds.sok.entities.Task;
 import pl.gda.pg.ds.sok.services.AnswerService;
+import pl.gda.pg.ds.sok.utils.MsgUtil;
 import pl.gda.pg.ds.sok.utils.NetworkUtil;
+import pl.gda.pg.ds.sok.utils.PropertiesUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -106,6 +108,15 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
                 }
                 update = true;
             }
+
+            query = session.createQuery("from Task where id = :taskId");
+            query.setLong("taskId", answer.getTaskId());
+            List<Task> task = query.list();
+            if(task.get(0).getCandidate().getEmail() != null) {
+                String mailBody = "Administratorze! \nKandydat " + candidate.getName() + " zaktualizował swoją odpowiedź na Twoje zadanie " + task.get(0).getTitle() + " w Systemie Odsiewania Kandydatów SKOS!";
+                MsgUtil.sendMail(task.get(0).getCandidate().getEmail(), task.get(0).getCandidate().getName(), "Aktualizacja odpowiedzi na zadanie!", mailBody);
+            }
+
             session.save(new AnswerHistory(answer.getContent(), candidate, new Task(answer.getTaskId()),NetworkUtil.getIpAddress(request)));
             session.getTransaction().commit();
 
