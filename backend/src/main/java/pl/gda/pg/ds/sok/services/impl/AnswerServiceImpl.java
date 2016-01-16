@@ -88,11 +88,10 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
             Query query = session.createQuery("from Candidate where token = :token");
             query.setString("token", answer.getToken());
 
-            List<Candidate> candidateList = query.list();
-            if (candidateList.isEmpty()) {
+            Candidate candidate = (Candidate) query.uniqueResult();
+            if (candidate == null) {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
-            Candidate candidate = candidateList.get(0);
 
             query = session.createQuery("from AnswerHistory where candidate.token = :token and task.id = :taskId");
             query.setString("token", answer.getToken());
@@ -111,10 +110,10 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
 
             query = session.createQuery("from Task where id = :taskId");
             query.setLong("taskId", answer.getTaskId());
-            List<Task> task = query.list();
-            if(task.get(0).getCandidate().getEmail() != null) {
-                String mailBody = "Administratorze! \nKandydat " + candidate.getName() + " zaktualizował swoją odpowiedź na Twoje zadanie " + task.get(0).getTitle() + " w Systemie Odsiewania Kandydatów SKOS!";
-                MsgUtil.sendMail(task.get(0).getCandidate().getEmail(), task.get(0).getCandidate().getName(), "Aktualizacja odpowiedzi na zadanie!", mailBody);
+            Task task = (Task) query.uniqueResult();
+            if(task != null) {
+                String mailBody = "Administratorze! \nKandydat " + candidate.getName() + " zaktualizował swoją odpowiedź na Twoje zadanie " + task.getTitle() + " w Systemie Odsiewania Kandydatów SKOS!";
+                MsgUtil.sendMail(task.getCandidate().getEmail(), task.getCandidate().getName(), "Aktualizacja odpowiedzi na zadanie!", mailBody);
             }
 
             session.save(new AnswerHistory(answer.getContent(), candidate, new Task(answer.getTaskId()),NetworkUtil.getIpAddress(request)));
