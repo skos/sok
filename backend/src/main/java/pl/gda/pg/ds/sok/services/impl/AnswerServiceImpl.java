@@ -93,15 +93,14 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
 
-            query = session.createQuery("from AnswerHistory where candidate.token = :token and task.id = :taskId");
+            query = session.createQuery("from AnswerHistory where candidate.token = :token and task.id = :taskId order by id desc");
             query.setString("token", answer.getToken());
             query.setLong("taskId", answer.getTaskId());
             query.setMaxResults(1);
 
             boolean update = false;
-            List<AnswerHistory> resultList = query.list();
-            if (resultList.size() > 0) {
-                AnswerHistory answerToUpdate = resultList.get(0);
+            AnswerHistory answerToUpdate = (AnswerHistory) query.uniqueResult();
+            if (answerToUpdate != null) {
                 if (answerToUpdate.getContent().equals(answer.getContent())) {
                     throw new ConstraintViolationException("Answer not modified", null, null);
                 }
