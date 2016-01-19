@@ -111,8 +111,10 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
             query.setLong("taskId", answer.getTaskId());
             Task task = (Task) query.uniqueResult();
             if(task != null) {
-                String mailBody = "Administratorze! \nKandydat " + candidate.getName() + " zaktualizował swoją odpowiedź na Twoje zadanie " + task.getTitle() + " w Systemie Odsiewania Kandydatów SKOS!";
-                MsgUtil.sendMail(task.getCandidate().getEmail(), task.getCandidate().getName(), "Aktualizacja odpowiedzi na zadanie!", mailBody);
+                String mailBody = PropertiesUtil.getProperty("mail.answer.body");
+                mailBody = mailBody.replace(MsgUtil.ANSWER_CANDIDATE, candidate.getName());
+                mailBody = mailBody.replace(MsgUtil.ANSWER_PLACEHOLDER, task.getTitle());
+                MsgUtil.sendMail(task.getCandidate().getEmail(), task.getCandidate().getName(), PropertiesUtil.getProperty("mail.answer.subject"), mailBody);
             }
 
             session.save(new AnswerHistory(answer.getContent(), candidate, new Task(answer.getTaskId()),NetworkUtil.getIpAddress(request)));
