@@ -7,9 +7,9 @@ version 0.12.1.
 Reference [here](http://www.sitepoint.com/kickstart-your-angularjs-development-with-yeoman-grunt-and-bower/)
 
 1. install node
-2. install ruby and compass (`gem install compass`)
 3. (suggested) `npm install -g yo grunt-cli bower generator-angular` 
 4. run npm install to get all dependencies locally
+5. run bower install
 
 ## Build & development
 
