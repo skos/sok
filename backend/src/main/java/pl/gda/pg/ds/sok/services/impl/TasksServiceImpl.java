@@ -59,7 +59,6 @@ public class TasksServiceImpl extends AbstractService implements TasksService {
 			StringBuilder queryString = new StringBuilder("from Candidate where token = :token");
 			query = session.createQuery(queryString.toString());
 			query.setParameter("token", authToken);
-			query.setMaxResults(1);
 			Candidate admin = (Candidate) query.uniqueResult();
 
 			session.save(new Task(task.getTitle(), task.getType(), task.getContent(), task.getDifficulty(), admin));
