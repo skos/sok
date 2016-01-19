@@ -110,7 +110,7 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
             query = session.createQuery("from Task where id = :taskId");
             query.setLong("taskId", answer.getTaskId());
             Task task = (Task) query.uniqueResult();
-            if(task != null) {
+            if(task != null && task.getCandidate() != null) {
                 String mailBody = PropertiesUtil.getProperty("mail.answer.body");
                 mailBody = mailBody.replace(MsgUtil.ANSWER_CANDIDATE, candidate.getName());
                 mailBody = mailBody.replace(MsgUtil.ANSWER_PLACEHOLDER, task.getTitle());
