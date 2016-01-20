@@ -79,4 +79,28 @@ public class Task implements Serializable  {
 	public void setCandidate(Candidate candidate) {
 		this.candidate = candidate;
 	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setDifficulty(Integer difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<AnswerHistory> getAnswers() {
+		return answers;
+	}
 }
