@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.transform.Transformers;
 import pl.gda.pg.ds.sok.beans.TaskBean;
+import pl.gda.pg.ds.sok.beans.TaskListBean;
 import pl.gda.pg.ds.sok.entities.Candidate;
 import pl.gda.pg.ds.sok.entities.Task;
 import pl.gda.pg.ds.sok.services.TasksService;
@@ -29,8 +30,8 @@ public class TasksServiceImpl extends AbstractService implements TasksService {
 	public Response getTasks() {
 		try {
 			Query query = session.createQuery("select id as id, title as title, type as type, content as content, difficulty as difficulty from Task");
-			query.setResultTransformer(Transformers.aliasToBean(Task.class));
-			List<Task> resultList = query.list();
+			query.setResultTransformer(Transformers.aliasToBean(TaskListBean.class));
+			List<TaskListBean> resultList = query.list();
 			if (resultList.size() > 0) {
 				return Response.ok(resultList).build();
 			} else {
