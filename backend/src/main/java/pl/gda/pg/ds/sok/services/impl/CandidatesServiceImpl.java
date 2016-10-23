@@ -7,19 +7,20 @@ import pl.gda.pg.ds.sok.beans.MailBean;
 import pl.gda.pg.ds.sok.entities.Candidate;
 import pl.gda.pg.ds.sok.services.CandidatesService;
 import pl.gda.pg.ds.sok.utils.MsgUtil;
+import pl.gda.pg.ds.sok.utils.PropertiesUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Path("/candidates")
 @Api(description = "List candidates")
 public class CandidatesServiceImpl extends AbstractService implements CandidatesService {
-	
+
 	private static final Logger logger = Logger.getLogger(CandidatesServiceImpl.class);
 
 	@GET
@@ -32,7 +33,12 @@ public class CandidatesServiceImpl extends AbstractService implements Candidates
 				return Response.status(Response.Status.UNAUTHORIZED).build();
 			}
 
-			Query query = session.createQuery("from Candidate");
+			StringBuilder hql = new StringBuilder();
+			hql.append("from Candidate c ");
+			hql.append("where (select count (a.id) from AnswerHistory a where a.candidate.id = c.id and a.answerDate > :answerDateFilter) > 0");
+			Query query = session.createQuery(hql.toString());
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+			query.setParameter("answerDateFilter", dateFormatter.parse(PropertiesUtil.getProperty("answersDate.filter")));
 
 			List<Candidate> resultList = query.list();
 			if (resultList.size() > 0) {
