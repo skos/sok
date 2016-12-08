@@ -13,3 +13,12 @@ hs_err_pid*
 build/
 logs/
 .gradle/
+
+!gradle/wrapper/gradle-wrapper.jar
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.ids
