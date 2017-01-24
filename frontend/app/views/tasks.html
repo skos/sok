@@ -24,7 +24,7 @@
 		<div class="form-group">
 			<p id="taskContent" ng-bind-html="tasks.selected.content"></p>
 			<textarea rows="5" placeholder="Miejsce na Twoje rozwiązanie...." class="form-control answer" name="taskAnswer"
-			ng-model="tasks.currentAnswer.content"></textarea>
+			ng-model="tasks.currentAnswer.content" required></textarea>
 		</div>
 		<div class="form-group">
 			<button type="submit" class="btn btn-primary pull-right" ng-disabled="tasks.answerForm.$pristine || tasks.answerForm.$invalid">Zapisz</button>
